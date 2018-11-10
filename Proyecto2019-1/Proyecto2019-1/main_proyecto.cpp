@@ -40,17 +40,25 @@ CTexture text4;	//Pavimento
 CTexture text5;	//Pasto01
 CTexture text6;	//Casa01
 
+CFiguras plancha;
+CFiguras torreIzquierda;
+CFiguras torreMedia;
+CFiguras torreDerecha;
+
 CFiguras fig1;
 CFiguras fig2;
 CFiguras fig3;
 CFiguras fig4;	//Pasto01
 CFiguras fig5;	//Casa01
 CFiguras fig6;
-
-CFiguras fig7; //Para el monito
+//Texturas usadas
+CTexture t_pasto;
+CTexture t_concreto;
+CTexture t_tierra;
 
 //Figuras de 3D Studio
 CModel hammer;
+CModel cubo;
 /*
 	Modelos a tener en cuenta:
 	Proyector
@@ -77,17 +85,11 @@ bool g_fanimacion = false;
 
 
 //MOD MIA
+bool cameraMode = false;
 float giro_llanta = 0.0f;
 bool loop_animacion = true;
 
-/**************************	ANIMACION REPORTE	***************************/
-bool backToFuture = false;	//Indica cuando cierta parte de la animacion (volando) esta ocurriendo.
-float movDelante = 0.0f;	//Para moverse adelante/atras
-float movArriba = 4.0f;		//Para moverse arriba/abajo		El coche inicia en valor de 4 para estar al ras del suelo
-float giroBTF = 0.0f;		//Para hacer el giro a lo Back To the Future
-
-int flagPos = 0;		//0 para el origen, 1 para el movimiento hacia atras, 2 arriba, 3 delante volando, 4 abajo, 5 delante suelo, 6 atras a origen
-/**************************	END ANIMACION REPORTE	**************************/
+float UpX = 0.0;
 
 //END MOD
 			
@@ -143,6 +145,8 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	//Carga de Figuras
 	hammer._3dsLoad("Modelos/hammer_paint.3ds");
 	hammer.VertexNormals();
+	cubo._3dsLoad("Modelos/cuboTextura.3ds");
+	cubo.VertexNormals();
 	//kit._3dsLoad("kitt.3ds");	
 	//kit.VertexNormals();
 	
@@ -166,109 +170,6 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
 }
 
 
-/**************************	ANIMACION REPORTE	***************************/
-/*
-void mov1() {
-	if (movDelante >= -60.0) {
-		movDelante -= 0.3;
-		giro_llanta -= 3.0;
-	}
-	else {
-		movDelante = -60.0;		//Exageración mia, obligo al flotante a tomar un valor exacto.
-		flagPos = 2;
-		backToFuture = true;
-		giro_llanta = 0.0;		//Debe quedar en 0, o si no rota raro cuando sube.
-	}
-}
-
-void mov2() {
-	if (movArriba <= 49) {
-		movArriba += 0.1;
-		if (giroBTF <= 90) {
-			giroBTF += 0.2;
-		}
-	}
-	else {
-		movArriba = 49.0;
-		flagPos = 3;
-	}
-
-}
-
-void mov3() {
-	if (movDelante <= 40) {
-		movDelante += 0.3;
-	}
-	else {
-		movDelante = 40;
-		flagPos = 4;
-	}
-}
-
-void mov4() {
-	if (movArriba >= 4.0) {
-		movArriba -= 0.1;
-		if (giroBTF >= 0.0) {
-			giroBTF -= 0.2;
-		}
-	}
-	else {
-		movArriba = 4.0;
-		flagPos = 5;
-		giroBTF = 0.0;
-	}
-}
-
-void mov5() {
-	if (movDelante <= 90.0) {
-		movDelante += 0.3;
-		giro_llanta += 3.0;
-	}
-	else {
-		movDelante = 90.0;
-		flagPos = 6;
-	}
-}
-
-void mov6() {
-	if (movDelante >= 0.0) {
-		movDelante -= 0.3;
-		giro_llanta -= 3.0;
-	}
-	else {
-		movDelante = 0.0;
-		flagPos = 1;
-		g_fanimacion = false;	//Para la animación.
-	}
-}
-
-void movCoche() {
-	switch (flagPos) {
-		case 1:		//Desde el origen, hacia 60 unidades atras
-			mov1();
-			break;
-		case 2:		//Comienza subida 45 unidades, cambia rotacion de llantas = volando
-			mov2();
-			break;
-		case 3:		//Hacia adelante 100 unidades, llantas = volando.
-			mov3();
-			break;
-		case 4:		//Hacia abajo 45 unidades, cambia rotacion de llantas = suelo
-			mov4();
-			break;
-		case 5:		//Hacia adelante 50 unidades, llantas = suelo
-			mov5();
-			break;
-		case 6:		//Hacia atrás 90 unidades, al origen y para.
-			mov6();
-			break;
-		default:
-			break;
-	}
-}
-*/
-/**************************	END ANIMACION REPORTE	**************************/
-
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -282,8 +183,8 @@ void display ( void )   // Creamos la funcion donde se dibuja
 		gluLookAt(	objCamera.mPos.x,  objCamera.mPos.y,  objCamera.mPos.z,	
 					objCamera.mView.x, objCamera.mView.y, objCamera.mView.z,	
 					objCamera.mUp.x,   objCamera.mUp.y,   objCamera.mUp.z);
-	
-
+		
+		
 		glPushMatrix();		
 			glPushMatrix(); //Creamos cielo
 				glDisable(GL_LIGHTING);
@@ -293,96 +194,29 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPopMatrix();
 
 			glPushMatrix();
-				//glDisable(GL_COLOR_MATERIAL);
+				glDisable(GL_COLOR_MATERIAL);
 				glRotatef(90, 0, 1, 0);
-				glScalef(0.5, 0.5, 0.5);
-				glTranslatef(0, 0, 0);
+				glTranslatef(0, 0.5, 0);
+				glScalef(1.0, 1.0, 1.0);
 				hammer.GLrender(NULL,_SHADED,1.0);
 			glPopMatrix();
-/*
-			glPushMatrix();
-				//Para que el coche conserve sus colores
-				glDisable(GL_COLOR_MATERIAL);
-				glRotatef(90, 0, 1, 0);	//Debido a que el coche importado estaba configurado de cierta forma
-				glScalef(0.3, 0.3, 0.3);
 
-				glTranslatef(0, movArriba, movDelante);		//movKit es para la animacion
-				// -60 <= movDelante <= 40			4 <= movArriba <= 49
-				//Pongo aquí la carroceria del carro
-				//kit.GLrender(NULL,_SHADED,1.0);  //_WIRED O _POINTS
-				kit.GLrender(NULL, _WIRED, 1.0);
-		//	MOD MIA
-				glPushMatrix();		//LLANTA	DEL-DER
-					glTranslatef(-6.0, -1.0, 7.5);
-					glRotatef(giro_llanta, 1.0, 0.0, 0.0);
-					//glPushMatrix();
-					if (backToFuture == true) {
-						glRotatef(giroBTF, 0.0, 0.0, 1.0);	//deben rotar en Z
-					}
-					//glPopMatrix();
-					llanta.GLrender(NULL,_SHADED,1.0);
-				glPopMatrix();
-
-				glPushMatrix();		//LLANTA	DEL-IZQ
-					glTranslatef(6.0, -1.0, 7.5);
-					glRotatef(giro_llanta, 1.0, 0.0, 0.0);
-					glRotatef(180.0, 0.0, 1.0, 0.0);
-					//glPushMatrix();
-					if (backToFuture == true) {
-						glRotatef(giroBTF, 0.0, 0.0, 1.0);	//deben rotar en Z
-					}
-					//glPopMatrix();
-					llanta.GLrender(NULL, _SHADED, 1.0);
-				glPopMatrix();
-
-				glPushMatrix();		//LLANTA	TRAS-DER
-					glTranslatef(-6.0, -1.0, -9.5);
-					glRotatef(giro_llanta, 1.0, 0.0, 0.0);
-					//glPushMatrix();
-					if (backToFuture == true) {
-						glRotatef(giroBTF, 0.0, 0.0, 1.0);	//deben rotar en Z
-					}
-					//glPopMatrix();
-					llanta.GLrender(NULL, _SHADED, 1.0);
-				glPopMatrix();
-
-				glPushMatrix();		//LLANTA	TRAS-IZQ
-					glTranslatef(6.0, -1.0, -9.5);
-					glRotatef(giro_llanta, 1.0, 0.0, 0.0);
-					glRotatef(180.0, 0.0, 1.0, 0.0);
-					//glPushMatrix();
-					if (backToFuture == true) {
-						glRotatef(giroBTF, 0.0, 0.0, 1.0);	//deben rotar en Z
-					}
-					//glPopMatrix();
-					llanta.GLrender(NULL, _SHADED, 1.0);
-				glPopMatrix();
+			glPushMatrix();	//Torre Izquierda
+				glTranslatef(8.0, 7.5, -5.0);
+				glScalef(10.0, 15.0, 10.0);
+				glDisable(GL_LIGHTING);
+				torreIzquierda.prisma2(text4.GLindex, 0);
+				glEnable(GL_LIGHTING);
 			glPopMatrix();
-		//	END MOD
-		*/
+
 			//Para que el comando glColor funcione con iluminacion
 			glEnable(GL_COLOR_MATERIAL);
-			
-/*			glPushMatrix(); //Flecha
-				glScalef(7,0.1,7);
-				glDisable(GL_LIGHTING);
-				fig3.prisma_anun(text3.GLindex, 0);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();*/
 
-			glPushMatrix(); //Camino1
-				glTranslatef(23.5,0.0,0.0);
-				glScalef(40,0.1,7);
+			glPushMatrix(); //Plancha
+				glTranslatef(0.0,0.0,0.0);
+				glScalef(50,0.1,50);
 				glDisable(GL_LIGHTING);
-				fig3.prisma2(text4.GLindex, 0);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();
-
-			glPushMatrix(); //Camino2
-				glTranslatef(-23.5,0.0,0.0);
-				glScalef(40,0.1,7);
-				glDisable(GL_LIGHTING);
-				fig3.prisma2(text4.GLindex, 0);
+				plancha.prisma2(text4.GLindex, 0);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
@@ -448,49 +282,7 @@ void animacion()
 	if(fig3.text_der<0)
 		fig3.text_der=1;
 
-	/*		ANIMACION DEL DIA DE PRÁCTICA
-	if(g_fanimacion)
-	{
-		//Animacion sencilla Space = se mueve hasta 60 y se detiene. Space otra vez y regresa al origen y vuelve la animacion
-		/*if (movKit <= 60.0) {
-			movKit += 0.5;
-			giro_llanta += 3.0;
-		}
-		else {
-			if (g_fanimacion == true && movKit > 60.0) {
-				g_fanimacion = false;
-			}
-			/*else if (g_fanimacion == false && movKit > 60.0){
-				movKit = 0.0f;
-				giro_llanta = 0.0f;
-			}
-				
-		}*/
-	/*
-
-		//Animacion: Space = coche inicia loop { adelante hasta 50u, atras hasta 0u}
-		if (loop_animacion == true && movKit <= 50.0) {
-			movKit += 0.5f;
-			giro_llanta += 3;
-		}
-		else {
-			if (movKit >= 50.0)
-				loop_animacion = false;
-			if (loop_animacion == false && movKit >= 0) {
-				movKit -= 0.5f;
-				giro_llanta -= 3;
-			}
-			if(movKit == 0) {
-				loop_animacion = true;
-			}
-		}
-	}*/
-
-	/**************************	ANIMACION REPORTE	***************************/
-	if (g_fanimacion == true) {
-//		movCoche();
-	}
-	/**************************	END ANIMACION REPORTE	**************************/
+	
 	glutPostRedisplay();
 }
 
@@ -538,22 +330,41 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			break;
 
 		case ' ':		//Poner algo en movimiento
-			g_fanimacion^= true; //Activamos/desactivamos la animacíon
-			/**************************	ANIMACION REPORTE	***************************/
+			printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
+			printf("mView.x = %f\tmView.y = %f\tmView.z = %f\n", objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
+			printf("mUp.x = %f\tmUp.y = %f\tmUp.z = %f\n", objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
+			printf("glookupdown = %f\n", g_lookupdown);
+			printf("CAMERASPEED: %f\n", CAMERASPEED);
+			printf("******************************************\n");
 			
-			//	Inicializa todas las variables, en cualquier momento que se presione space la animación empieza desde 0.
-
-			flagPos = 1;			//Indica que numero de animacion hacer.
-			backToFuture = false;	//Indica que el coche en un determinado momento está volando.
-			movDelante = 0.0f;		//Para mover el coche hacia adelante/atrás
-			movArriba = 4.0f;		//Para mover el coche hacia arriba/abajo
-			giroBTF = 0.0f;			//Para girar las llantas a lo Back to the Future
-			giro_llanta = 0.0f;		//Para girar las llantas simulando tracción
-			/**************************	END ANIMACION REPORTE	**************************/
-			/*movKit = 0.0f;
-			giro_llanta = 0.0f;*/
 			break;
-
+		case '0':	//Original
+			objCamera.Position_Camera(10, 2.5f, 13, 10, 2.5f, 10, 0, 1, 0);
+			g_lookupdown = 0.0;
+			break;
+		case '1':	//Top
+		/*
+		void CCamera::Position_Camera(float pos_x,  float pos_y,  float pos_z,
+							  float view_x, float view_y, float view_z,
+							  float up_x,   float up_y,   float up_z)
+		*/
+			g_lookupdown = 119.0;
+			objCamera.Position_Camera(7.18, 42.8, -5.63, 7.18, 44.5, -8.63, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
+			break;
+		case '2':	//Front
+			g_lookupdown = 0.0;
+			objCamera.Position_Camera(2.95, 3.9, 44.59, 2.95, 3.9, 41.59, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
+			break;
+		case '3':	//Right
+			g_lookupdown = 0.0;
+			objCamera.Position_Camera(45.73, 4.6, -3.63, 42.73, 4.6, -3.72, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
+			break;
+		case '4':	//Left
+			g_lookupdown = 0.0;
+			objCamera.Position_Camera(-36.92, 4.6, -4.69, -33.92, 4.6, -4.63, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
+			break;
+		case '5':
+			break;
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
 			break;        
