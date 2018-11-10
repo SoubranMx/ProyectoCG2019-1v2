@@ -21,7 +21,22 @@ class CFiguras
 	void prisma2 (GLuint text, GLuint text2);
 	void skybox(float altura, float largo, float profundidad, GLuint text);	//Funcion creacion cielo
 	
+/*PROYECTO*/
+	void torreA(GLuint text);
+	void torreMedia(GLuint text, float scaleX, float scaleY, float scaleZ);
+	void plancha(GLuint text);
 
+	void jardineraA(GLuint text, float scaleX, float scaleY, float scaleZ);
+	void jardineraB(GLuint text, GLuint text2, float scaleX, float scaleY, float scaleZ);
+	void jardineraC(GLuint text, GLuint text2, float scaleX, float scaleY, float scaleZ);
+	void jardineraD(GLuint text, GLuint text2, float scaleX, float scaleY, float scaleZ);
+	void jardineraE(GLuint text, GLuint text2);
+	void jardineraF(GLuint text, GLuint text2);
+	void jardineraG(GLuint text, GLuint text2);
+	void jardineraH(GLuint text, GLuint text2);
+	void jardineraI(GLuint text, GLuint text2);
+	void jardineraJ(GLuint text, GLuint text2);
+/*PROYECTO*/
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
 

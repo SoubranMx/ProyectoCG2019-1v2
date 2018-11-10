@@ -40,11 +40,6 @@ CTexture text4;	//Pavimento
 CTexture text5;	//Pasto01
 CTexture text6;	//Casa01
 
-CFiguras plancha;
-CFiguras torreIzquierda;
-CFiguras torreMedia;
-CFiguras torreDerecha;
-
 CFiguras fig1;
 CFiguras fig2;
 CFiguras fig3;
@@ -55,7 +50,15 @@ CFiguras fig6;
 CTexture t_pasto;
 CTexture t_concreto;
 CTexture t_tierra;
+CTexture t_tile1;	//Fachada de Torres Altas?
+CTexture t_dado;
 
+//Figuras a "mano"
+CFiguras plancha;
+CFiguras torreIzquierda;
+CFiguras torreMedia;
+CFiguras torreDerecha;
+CFiguras jardinera;
 //Figuras de 3D Studio
 CModel hammer;
 CModel cubo;
@@ -122,36 +125,30 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	text1.BuildGLTexture();
 	text1.ReleaseImage();
 
-	text2.LoadBMP("logopumas.bmp");
-	text2.BuildGLTexture();
-	text2.ReleaseImage();
+	t_pasto.LoadTGA("Texturas/pasto.tga");
+	t_pasto.BuildGLTexture();
+	t_pasto.ReleaseImage();
 
-	text3.LoadTGA("city/arrow.tga");
-	text3.BuildGLTexture();
-	text3.ReleaseImage();
+	t_concreto.LoadTGA("Texturas/concreto.tga");
+	t_concreto.BuildGLTexture();
+	t_concreto.ReleaseImage();
 
-	text4.LoadTGA("city/pavimento.tga");
-	text4.BuildGLTexture();
-	text4.ReleaseImage();
+	t_tierra.LoadTGA("Texturas/tierra.tga");
+	t_tierra.BuildGLTexture();
+	t_tierra.ReleaseImage();
 
-	text5.LoadTGA("city/pasto01.tga");
-	text5.BuildGLTexture();
-	text5.ReleaseImage();
+	t_tile1.LoadTGA("Texturas/tile1.tga");
+	t_tile1.BuildGLTexture();
+	t_tile1.ReleaseImage();
 
-	text6.LoadTGA("city/casa01.tga");
-	text6.BuildGLTexture();
-	text6.ReleaseImage();
-
+	t_dado.LoadTGA("Texturas/dado.tga");
+	t_dado.BuildGLTexture();
+	t_dado.ReleaseImage();
 	//Carga de Figuras
 	hammer._3dsLoad("Modelos/hammer_paint.3ds");
 	hammer.VertexNormals();
 	cubo._3dsLoad("Modelos/cuboTextura.3ds");
 	cubo.VertexNormals();
-	//kit._3dsLoad("kitt.3ds");	
-	//kit.VertexNormals();
-	
-	//llanta._3dsLoad("k_rueda.3ds");
-	//monkey._3dsLoad("monkey.3ds");
 
 	objCamera.Position_Camera(10,2.5f,13, 10,2.5f,10, 0, 1, 0);
 
@@ -169,6 +166,46 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   }
 }
 
+void jardineras() {
+	glPushMatrix();
+		glTranslatef(0.0, 0.5, -5.0);
+		glScalef(26.0, 1.0, 10.0);
+		glDisable(GL_LIGHTING);
+		jardinera.torreMedia(t_tierra.GLindex, 26.0, 1.0, 10.0);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+		
+	/*glPushMatrix();
+		glTranslatef(0.0, 1.5, -20.0);
+		glScalef(1.0, 1.0, 1.0);
+		glDisable(GL_LIGHTING);
+		jardinera.cilindro(7.5, 1.0, 20, 0);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();*/
+
+	glPushMatrix();	//E
+		glTranslatef(-17.0, 0.0, -3.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraE(t_tierra.GLindex,t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+
+	glPushMatrix();	//F
+		glTranslatef(17.0, 1.052, -3.0);
+		glRotatef(180, 0.0, 0.0, 1.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraF(t_tierra.GLindex, t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+
+	glPushMatrix();	//G
+		glTranslatef(-13.0, 0.5, 12.0);
+		//glRotatef(180, 0.0, 0.0, 1.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraG(t_tierra.GLindex, t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+}
 
 void display ( void )   // Creamos la funcion donde se dibuja
 {
@@ -176,7 +213,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 	
 	glLoadIdentity();
 	
-	glPushMatrix();
+	glPushMatrix();	//General
 
 		glRotatef(g_lookupdown,1.0f,0,0);
 
@@ -193,22 +230,39 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
-			glPushMatrix();
+/*			glPushMatrix();
 				glDisable(GL_COLOR_MATERIAL);
 				glRotatef(90, 0, 1, 0);
 				glTranslatef(0, 0.5, 0);
 				glScalef(1.0, 1.0, 1.0);
 				hammer.GLrender(NULL,_SHADED,1.0);
 			glPopMatrix();
-
+*/
 			glPushMatrix();	//Torre Izquierda
-				glTranslatef(8.0, 7.5, -5.0);
+				glTranslatef(-8.0, 8.502, -5.0);
 				glScalef(10.0, 15.0, 10.0);
 				glDisable(GL_LIGHTING);
-				torreIzquierda.prisma2(text4.GLindex, 0);
+				torreIzquierda.torreMedia(t_tile1.GLindex, 10.0, 15.0, 10.0);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
+			glPushMatrix();	//Torre Derecha
+				glTranslatef(8.0, 8.502, -5.0);
+				glScalef(10.0, 15.0, 10.0);
+				glDisable(GL_LIGHTING);
+				torreDerecha.torreMedia(t_tile1.GLindex, 10.0, 15.0, 10.0);
+				glEnable(GL_LIGHTING);
+			glPopMatrix();
+
+			glPushMatrix();	//Torre Media
+				glTranslatef(0.0, 2.502, -4.0);
+				glScalef(6.0, 3.0, 8.0);
+				glDisable(GL_LIGHTING);
+				torreMedia.torreMedia(t_tile1.GLindex,6.0,3.0,8.0);
+				glEnable(GL_LIGHTING);
+			glPopMatrix();
+
+			jardineras();
 			//Para que el comando glColor funcione con iluminacion
 			glEnable(GL_COLOR_MATERIAL);
 
@@ -216,55 +270,17 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(0.0,0.0,0.0);
 				glScalef(50,0.1,50);
 				glDisable(GL_LIGHTING);
-				plancha.prisma2(text4.GLindex, 0);
+				plancha.plancha(t_concreto.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
-/*			glPushMatrix(); //Pasto
-				glTranslatef(0.0,0.0,-4.0);
-				glScalef(87,0.1,1);
-				glDisable(GL_LIGHTING);
-				fig4.prisma2(text5.GLindex, 0);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();
-
-			glPushMatrix(); //Pasto
-				glTranslatef(0.0,0.0,4.0);
-				glScalef(87,0.1,1);
-				glDisable(GL_LIGHTING);
-				fig4.prisma2(text5.GLindex, 0);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();
-
-			glPushMatrix(); //Casa01
-				glTranslatef(0.0,3.0,7.0);
-				glRotatef(90,1,0,0);
-				glRotatef(180,0,0,1);
-				glScalef(6,5.0,6);
-				glDisable(GL_LIGHTING);
-				fig5.prisma2(text6.GLindex, 0);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();
-
-			glPushMatrix(); //Casa01
-				glTranslatef(0.0,3.0,-7.0);
-				glRotatef(90,1,0,0);
-				glScalef(6,5.0,6);
-				glDisable(GL_LIGHTING);
-				fig5.prisma2(text6.GLindex, 0);
-				glEnable(GL_LIGHTING);
-			glPopMatrix();
-
-			glColor3f(1.0,1.0,1.0);
-
-		glPopMatrix();*/
-	glPopMatrix();
+	glPopMatrix();	//General
 
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 		glColor3f(1.0,0.0,0.0);
-		pintaTexto(-12,12.0,-14.0,(void *)font,"Practica 10");
-		pintaTexto(-12,10.5,-14,(void *)font,"Poner algo en Movimiento");
+		pintaTexto(-12,12.0,-14.0,(void *)font,"Proyecto");
+		pintaTexto(-12,10.5,-14,(void *)font,"Edificio");
 		glColor3f(1.0,1.0,1.0);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
@@ -330,6 +346,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			break;
 
 		case ' ':		//Poner algo en movimiento
+			//Commit?
 			printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
 			printf("mView.x = %f\tmView.y = %f\tmView.z = %f\n", objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
 			printf("mUp.x = %f\tmUp.y = %f\tmUp.z = %f\n", objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
