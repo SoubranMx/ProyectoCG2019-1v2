@@ -52,6 +52,7 @@ CTexture t_concreto;
 CTexture t_tierra;
 CTexture t_tile1;	//Fachada de Torres Altas?
 CTexture t_dado;
+CTexture t_tree;
 
 //Figuras a "mano"
 CFiguras plancha;
@@ -59,9 +60,16 @@ CFiguras torreIzquierda;
 CFiguras torreMedia;
 CFiguras torreDerecha;
 CFiguras jardinera;
+CFiguras tree;
 //Figuras de 3D Studio
 CModel hammer;
 CModel cubo;
+CModel streetLamp;
+CModel coche;
+CModel PC;
+float  Lx = 0.0;
+float  Ly = 0.0;
+float  Lz = 0.0;
 /*
 	Modelos a tener en cuenta:
 	Proyector
@@ -144,11 +152,22 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_dado.LoadTGA("Texturas/dado.tga");
 	t_dado.BuildGLTexture();
 	t_dado.ReleaseImage();
+
+	t_tree.LoadTGA("Texturas/Tree01.tga");
+	t_tree.BuildGLTexture();
+	t_tree.ReleaseImage();
+
 	//Carga de Figuras
 	hammer._3dsLoad("Modelos/hammer_paint.3ds");
 	hammer.VertexNormals();
-	cubo._3dsLoad("Modelos/cuboTextura.3ds");
-	cubo.VertexNormals();
+
+	streetLamp._3dsLoad("Modelos/streetLamp.3DS");
+	streetLamp.VertexNormals();
+
+	coche._3dsLoad("Modelos/coche.3ds");
+	coche.VertexNormals();
+
+	PC._3dsLoad("Modelos/PC_CG.3DS");	//Buen modelo
 
 	objCamera.Position_Camera(10,2.5f,13, 10,2.5f,10, 0, 1, 0);
 
@@ -171,17 +190,10 @@ void jardineras() {
 		glTranslatef(0.0, 0.5, -5.0);
 		glScalef(26.0, 1.0, 10.0);
 		glDisable(GL_LIGHTING);
-		jardinera.torreMedia(t_tierra.GLindex, 26.0, 1.0, 10.0);
+		jardinera.torreMedia(t_tierra.GLindex, t_concreto.GLindex, 26.0, 1.0, 10.0);
 		glEnable(GL_LIGHTING);
 	glPopMatrix();
 		
-	/*glPushMatrix();
-		glTranslatef(0.0, 1.5, -20.0);
-		glScalef(1.0, 1.0, 1.0);
-		glDisable(GL_LIGHTING);
-		jardinera.cilindro(7.5, 1.0, 20, 0);
-		glEnable(GL_LIGHTING);
-	glPopMatrix();*/
 
 	glPushMatrix();	//E
 		glTranslatef(-17.0, 0.0, -3.0);
@@ -199,11 +211,54 @@ void jardineras() {
 	glPopMatrix();
 
 	glPushMatrix();	//G
-		glTranslatef(-13.0, 0.5, 12.0);
-		//glRotatef(180, 0.0, 0.0, 1.0);
+		glTranslatef(-13.0, 0.052, 12.0);
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraG(t_tierra.GLindex, t_pasto.GLindex);
 		glEnable(GL_LIGHTING);
+	glPopMatrix();
+	glPushMatrix();	//H
+		glTranslatef(13.0, 1.052, 12.0);
+		glRotatef(180, 0.0, 0.0, 1.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraH(t_tierra.GLindex, t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+
+	glPushMatrix();	//C	sin curva
+		glTranslatef(-8.0, 1.052, -17.0);
+		glRotatef(180, 0.0, 0.0, 1.0);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraF(t_tierra.GLindex, t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+
+	glPushMatrix();	//D	sin curva
+		glTranslatef(8.0, 0.052, -17.0);
+		glRotatef(-90, 0.0, 1.0, 0.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraE(t_tierra.GLindex, t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+
+	glPushMatrix();	//I
+		glTranslatef(-6.0, 0.052, 20.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraI(t_tierra.GLindex, t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+
+	glPushMatrix();	//J
+		glTranslatef(6.0, 1.052, 20.0);
+		glRotatef(180, 0.0, 0.0, 1.0);
+		glDisable(GL_LIGHTING);
+		jardinera.jardineraJ(t_tierra.GLindex, t_pasto.GLindex);
+		glEnable(GL_LIGHTING);
+	glPopMatrix();
+
+	glPushMatrix();	//Arbol
+		glTranslatef(0.0, 3.0, 30.0);
+		tree.tree(t_tree.GLindex);
 	glPopMatrix();
 }
 
@@ -229,20 +284,30 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				fig1.skybox(130.0, 130.0, 130.0,text1.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
-
-/*			glPushMatrix();
+/*
+			glPushMatrix();	//Lampara
 				glDisable(GL_COLOR_MATERIAL);
-				glRotatef(90, 0, 1, 0);
-				glTranslatef(0, 0.5, 0);
-				glScalef(1.0, 1.0, 1.0);
-				hammer.GLrender(NULL,_SHADED,1.0);
+				//glRotatef(90, 0, 1, 0);
+				//glTranslatef(Lx, Ly, Lz);
+				glTranslatef(0.0, 0.0, 0.0);
+				glScalef(0.05, 0.05, 0.05);
+				streetLamp.GLrender(NULL,_SHADED,1.0);
+			glPopMatrix();
+*/
+/*			glPushMatrix();	//PC
+				glDisable(GL_COLOR_MATERIAL);
+				//glRotatef(90, 0, 1, 0);
+				//glTranslatef(Lx, Ly, Lz);
+				glTranslatef(0.0, 0.0, 10.0);
+				glScalef(0.005, 0.005, 0.005);
+				PC.GLrender(NULL, _SHADED, 1.0);
 			glPopMatrix();
 */
 			glPushMatrix();	//Torre Izquierda
 				glTranslatef(-8.0, 8.502, -5.0);
 				glScalef(10.0, 15.0, 10.0);
 				glDisable(GL_LIGHTING);
-				torreIzquierda.torreMedia(t_tile1.GLindex, 10.0, 15.0, 10.0);
+				torreIzquierda.torreMedia(t_tile1.GLindex, t_tile1.GLindex, 10.0, 15.0, 10.0);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
@@ -250,7 +315,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(8.0, 8.502, -5.0);
 				glScalef(10.0, 15.0, 10.0);
 				glDisable(GL_LIGHTING);
-				torreDerecha.torreMedia(t_tile1.GLindex, 10.0, 15.0, 10.0);
+				torreDerecha.torreMedia(t_tile1.GLindex, t_tile1.GLindex, 10.0, 15.0, 10.0);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
@@ -258,11 +323,12 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glTranslatef(0.0, 2.502, -4.0);
 				glScalef(6.0, 3.0, 8.0);
 				glDisable(GL_LIGHTING);
-				torreMedia.torreMedia(t_tile1.GLindex,6.0,3.0,8.0);
+				torreMedia.torreMedia(t_tile1.GLindex, t_tile1.GLindex, 6.0,3.0,8.0);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
 			jardineras();
+			
 			//Para que el comando glColor funcione con iluminacion
 			glEnable(GL_COLOR_MATERIAL);
 
@@ -347,12 +413,15 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case ' ':		//Poner algo en movimiento
 			//Commit?
-			printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
+			printf("X = %f\n", Lx);
+			printf("Y = %f\n", Ly);
+			printf("Z = %f\n\n", Lz);
+			/*printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
 			printf("mView.x = %f\tmView.y = %f\tmView.z = %f\n", objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
 			printf("mUp.x = %f\tmUp.y = %f\tmUp.z = %f\n", objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 			printf("glookupdown = %f\n", g_lookupdown);
 			printf("CAMERASPEED: %f\n", CAMERASPEED);
-			printf("******************************************\n");
+			printf("******************************************\n");*/
 			
 			break;
 		case '0':	//Original
@@ -381,6 +450,22 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			objCamera.Position_Camera(-36.92, 4.6, -4.69, -33.92, 4.6, -4.63, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 			break;
 		case '5':
+			Lz += 1.0;
+			break;
+		case '6':
+			Lx += 1.0;
+			break;
+		case '8':
+			Ly += 1.0;
+			break;
+		case 'i':
+			Ly -= 1.0;
+			break;
+		case 'k':
+			Lz -= 1.0;
+			break;
+		case 'l':
+			Lx -= 1.0;
 			break;
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa

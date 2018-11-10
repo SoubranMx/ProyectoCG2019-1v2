@@ -23,7 +23,7 @@ class CFiguras
 	
 /*PROYECTO*/
 	void torreA(GLuint text);
-	void torreMedia(GLuint text, float scaleX, float scaleY, float scaleZ);
+	void torreMedia(GLuint text, GLuint text2, float scaleX, float scaleY, float scaleZ);
 	void plancha(GLuint text);
 
 	void jardineraA(GLuint text, float scaleX, float scaleY, float scaleZ);
@@ -36,6 +36,8 @@ class CFiguras
 	void jardineraH(GLuint text, GLuint text2);
 	void jardineraI(GLuint text, GLuint text2);
 	void jardineraJ(GLuint text, GLuint text2);
+
+	void tree (GLuint text);
 /*PROYECTO*/
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);
