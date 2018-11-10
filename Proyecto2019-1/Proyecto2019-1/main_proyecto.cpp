@@ -50,9 +50,27 @@ CFiguras fig6;
 CFiguras fig7; //Para el monito
 
 //Figuras de 3D Studio
-CModel kit;
-CModel llanta;
-CModel monkey;
+CModel hammer;
+/*
+	Modelos a tener en cuenta:
+	Proyector
+	Silla1 (como las del lab CG)
+	Silla2 (como las del I)
+	Escritorio
+	PC1(la del I)
+	PC2(la de CG, aca pueden ser 1 o más, supuestamente PROPC)
+	MesaLarga (para las compus, de 2 diferentes tamaños)
+	Teclado
+	Mouse
+	Monitor
+	Puerta1 (azul, del I)
+	Puerta2 (blanca, de CG)
+	Cajas	(en CG, extras?)
+	Garrafon (de CG)
+	BoteBasuraAmarillo (del I)
+
+	Luces?
+*/
 //Animación del coche
 float movKit = 0.0;
 bool g_fanimacion = false;
@@ -123,6 +141,8 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	text6.ReleaseImage();
 
 	//Carga de Figuras
+	hammer._3dsLoad("Modelos/hammer_paint.3ds");
+	hammer.VertexNormals();
 	//kit._3dsLoad("kitt.3ds");	
 	//kit.VertexNormals();
 	
@@ -275,9 +295,9 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			glPushMatrix();
 				//glDisable(GL_COLOR_MATERIAL);
 				glRotatef(90, 0, 1, 0);
-				glScalef(1, 1, 1);
+				glScalef(0.5, 0.5, 0.5);
 				glTranslatef(0, 0, 0);
-				monkey.GLrender(NULL,_SHADED,1.0);
+				hammer.GLrender(NULL,_SHADED,1.0);
 			glPopMatrix();
 /*
 			glPushMatrix();
