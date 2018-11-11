@@ -1313,72 +1313,18 @@ void CFiguras::tree(GLuint text) {
 	for (int i = 0; i < 360; i += 40) {
 		glRotatef(i, 0.0, 1.0, 0.0);
 		glBegin(GL_POLYGON);
+/*			glTexCoord2f(0.0, 0.0); glVertex3f(-0.5, 0.0, 0.0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-0.5, 0.5, 0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(0.5, 0.5, 0.0);
+			glTexCoord2f(1.0, 0.0); glVertex3f(0.5, 0.0, 0.0);*/
 			glTexCoord2f(0.0, 0.0); glVertex3f(-2.0, 0.0, 0.0);
-			glTexCoord2f(0.0, 1.0); glVertex3f(-2.0, 6.0, 0.0);
-			glTexCoord2f(1.0, 1.0); glVertex3f(2.0, 6.0, 0.0);
+			glTexCoord2f(0.0, 1.0); glVertex3f(-2.0, 7.5, 0.0);
+			glTexCoord2f(1.0, 1.0); glVertex3f(2.0, 7.5, 0.0);
 			glTexCoord2f(1.0, 0.0); glVertex3f(2.0, 0.0, 0.0);
 		glEnd();
 	}
 	glDisable(GL_ALPHA_TEST);
 	glEnable(GL_LIGHTING);
-	/*glPushMatrix();
-		glDisable(GL_LIGHTING);
-		glEnable(GL_ALPHA_TEST);
-		//glDisable(GL_DEPTH_TEST);   // Turn Depth Testing Off
-		glAlphaFunc(GL_GREATER, 0.1);
-		//glEnable(GL_BLEND);     // Turn Blending On
-		//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glBindTexture(GL_TEXTURE_2D, text);
-		glBegin(GL_QUADS); //plano
-			glColor3f(1.0, 1.0, 1.0);
-			glNormal3f(0.0f, 0.0f, 1.0f);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
-		glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-		glRotatef(45, 0, 1, 0);
-		glBegin(GL_QUADS); //plano
-			glColor3f(1.0, 1.0, 1.0);
-			glNormal3f(0.0f, 0.0f, 1.0f);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
-		glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-		glRotatef(-45, 0, 1, 0);
-		glBegin(GL_QUADS); //plano
-			glColor3f(1.0, 1.0, 1.0);
-			glNormal3f(0.0f, 0.0f, 1.0f);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
-		glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-		glRotatef(90, 0, 1, 0);
-		glBegin(GL_QUADS); //plano
-			glColor3f(1.0, 1.0, 1.0);
-			glNormal3f(0.0f, 0.0f, 1.0f);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(-10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(10.0, 0.0, 0.0);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f(10.0, 20.0, 0.0);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f(-10.0, 20.0, 0.0);
-		glEnd();
-		glDisable(GL_ALPHA_TEST);
-		//glDisable(GL_BLEND);        // Turn Blending Off
-		//glEnable(GL_DEPTH_TEST);    // Turn Depth Testing On
-		glEnable(GL_LIGHTING);
-
-	glPopMatrix();*/
 }
 
 /*PROYECTO*/

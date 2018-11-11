@@ -53,6 +53,7 @@ CTexture t_tierra;
 CTexture t_tile1;	//Fachada de Torres Altas?
 CTexture t_dado;
 CTexture t_tree;
+CTexture t_tree2;
 
 //Figuras a "mano"
 CFiguras plancha;
@@ -153,9 +154,13 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_dado.BuildGLTexture();
 	t_dado.ReleaseImage();
 
-	t_tree.LoadTGA("Texturas/Tree01.tga");
+	t_tree.LoadTGA("Texturas/tree2.tga");
 	t_tree.BuildGLTexture();
 	t_tree.ReleaseImage();
+
+	t_tree2.LoadTGA("Texturas/tree3.tga");
+	t_tree2.BuildGLTexture();
+	t_tree2.ReleaseImage();
 
 	//Carga de Figuras
 	hammer._3dsLoad("Modelos/hammer_paint.3ds");
@@ -215,9 +220,17 @@ void jardineras() {
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraG(t_tierra.GLindex, t_pasto.GLindex);
 		glEnable(GL_LIGHTING);
+		glPushMatrix();	//Arbol
+			glTranslatef(-5.0, 1.0, -4.0);
+			tree.tree(t_tree.GLindex);
+		glPopMatrix();
 	glPopMatrix();
 	glPushMatrix();	//H
 		glTranslatef(13.0, 1.052, 12.0);
+		glPushMatrix();	//Arbol
+			glTranslatef(5.0, 0.0, -4.0);
+			tree.tree(t_tree.GLindex);
+		glPopMatrix();
 		glRotatef(180, 0.0, 0.0, 1.0);
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraH(t_tierra.GLindex, t_pasto.GLindex);
@@ -226,6 +239,10 @@ void jardineras() {
 
 	glPushMatrix();	//C	sin curva
 		glTranslatef(-8.0, 1.052, -17.0);
+		glPushMatrix();	//Arbol
+			glTranslatef(-4.0, -0.05, -2.0);
+			tree.tree(t_tree2.GLindex);
+		glPopMatrix();
 		glRotatef(180, 0.0, 0.0, 1.0);
 		glRotatef(-90, 0.0, 1.0, 0.0);
 		glDisable(GL_LIGHTING);
@@ -235,6 +252,10 @@ void jardineras() {
 
 	glPushMatrix();	//D	sin curva
 		glTranslatef(8.0, 0.052, -17.0);
+		glPushMatrix();	//Arbol
+			glTranslatef(4.0, 0.95, -2.0);
+			tree.tree(t_tree2.GLindex);
+		glPopMatrix();
 		glRotatef(-90, 0.0, 1.0, 0.0);
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraE(t_tierra.GLindex, t_pasto.GLindex);
@@ -254,11 +275,6 @@ void jardineras() {
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraJ(t_tierra.GLindex, t_pasto.GLindex);
 		glEnable(GL_LIGHTING);
-	glPopMatrix();
-
-	glPushMatrix();	//Arbol
-		glTranslatef(0.0, 3.0, 30.0);
-		tree.tree(t_tree.GLindex);
 	glPopMatrix();
 }
 

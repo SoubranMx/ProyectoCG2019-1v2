@@ -1,6 +1,2 @@
-﻿  figuras.cpp
-d:\bibliotecas\documentos\github\proyectocg2019-1v2\proyecto2019-1\proyecto2019-1\figuras.cpp(20): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
-d:\bibliotecas\documentos\github\proyectocg2019-1v2\proyecto2019-1\proyecto2019-1\figuras.cpp(90): warning C4838: la conversión de 'double' en 'GLfloat' requiere una conversión de restricción
-d:\bibliotecas\documentos\github\proyectocg2019-1v2\proyecto2019-1\proyecto2019-1\figuras.cpp(298): warning C4101: 'theta': variable local sin referencia
-d:\bibliotecas\documentos\github\proyectocg2019-1v2\proyecto2019-1\proyecto2019-1\figuras.cpp(298): warning C4101: 'phi': variable local sin referencia
+﻿  main_proyecto.cpp
   Proyecto2019-1.vcxproj -> D:\Bibliotecas\Documentos\GitHub\ProyectoCG2019-1v2\Proyecto2019-1\Debug\Proyecto2019-1.exe
