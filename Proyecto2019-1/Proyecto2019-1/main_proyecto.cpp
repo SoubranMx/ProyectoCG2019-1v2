@@ -34,18 +34,19 @@ GLfloat m_amb1[] = { 0.0, 0.0, 0.0, 1.0 };				// Ambiental Light Values
 GLfloat m_s1[] = {18};
 
 CTexture text1;
-CTexture text2;
+/*CTexture text2;
 CTexture text3;	//Flecha
 CTexture text4;	//Pavimento
 CTexture text5;	//Pasto01
-CTexture text6;	//Casa01
+CTexture text6;	//Casa01*/
 
 CFiguras fig1;
-CFiguras fig2;
+//CFiguras fig2;*/
 CFiguras fig3;
-CFiguras fig4;	//Pasto01
+/*CFiguras fig4;	//Pasto01
 CFiguras fig5;	//Casa01
-CFiguras fig6;
+CFiguras fig6;*/
+
 //Texturas usadas
 CTexture t_pasto;
 CTexture t_concreto;
@@ -62,6 +63,7 @@ CFiguras torreMedia;
 CFiguras torreDerecha;
 CFiguras jardinera;
 CFiguras tree;
+
 //Figuras de 3D Studio
 CModel hammer;
 CModel cubo;
@@ -264,6 +266,12 @@ void jardineras() {
 
 	glPushMatrix();	//I
 		glTranslatef(-6.0, 0.052, 20.0);
+		glPushMatrix();	//Lampara
+			glTranslatef(-21,0.4,-11.2);	//-21,0.3,-11
+			//glTranslatef(Lx, Ly, Lz);
+			glScalef(0.05, 0.05, 0.05);
+			streetLamp.GLrender(NULL, _SHADED, 1.0);
+		glPopMatrix();
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraI(t_tierra.GLindex, t_pasto.GLindex);
 		glEnable(GL_LIGHTING);
@@ -271,6 +279,12 @@ void jardineras() {
 
 	glPushMatrix();	//J
 		glTranslatef(6.0, 1.052, 20.0);
+		glPushMatrix();	//Lampara
+			glTranslatef(-8.2,-0.5,-11.2);
+			//glTranslatef(Lx, Ly, Lz);	//-8,-0.5,-11
+			glScalef(0.05, 0.05, 0.05);
+			streetLamp.GLrender(NULL, _SHADED, 1.0);
+		glPopMatrix();
 		glRotatef(180, 0.0, 0.0, 1.0);
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraJ(t_tierra.GLindex, t_pasto.GLindex);
