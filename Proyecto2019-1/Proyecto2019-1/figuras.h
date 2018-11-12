@@ -38,6 +38,7 @@ class CFiguras
 	void jardineraJ(GLuint text, GLuint text2);
 
 	void tree (GLuint text);
+	void labCG(GLuint text[8], float largo, float altura, float profundidad);
 /*PROYECTO*/
 	//void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos, GLuint text );
 	void torus(GLfloat radioM, GLfloat radiom, int meridianos, int paralelos);

@@ -56,6 +56,18 @@ CTexture t_dado;
 CTexture t_tree;
 CTexture t_tree2;
 
+//Texturas de LabCG
+CTexture t_fumar;
+CTexture t_comer;
+CTexture t_hablar;
+CTexture t_celular;
+CTexture t_pizarron;
+CTexture t_ventana;
+CTexture t_pisoCG;
+CTexture t_metalCG;
+
+GLuint t_LabCG [7];
+
 //Figuras a "mano"
 CFiguras plancha;
 CFiguras torreIzquierda;
@@ -63,13 +75,25 @@ CFiguras torreMedia;
 CFiguras torreDerecha;
 CFiguras jardinera;
 CFiguras tree;
+CFiguras salon;
 
 //Figuras de 3D Studio
 CModel hammer;
 CModel cubo;
-CModel streetLamp;
 CModel coche;
-CModel PC;
+
+CModel streetLamp;
+CModel pc_Pro;
+CModel pc_Old;
+CModel sillaClase;
+CModel sillaLab;
+CModel desk;
+CModel trashCan;
+
+
+CModel banca;
+
+//Auxiliares para dejar en su lugar cualquier cosa cuando la mueves con 568 o kli
 float  Lx = 0.0;
 float  Ly = 0.0;
 float  Lz = 0.0;
@@ -93,19 +117,15 @@ float  Lz = 0.0;
 
 	Luces?
 */
-//Animación del coche
-float movKit = 0.0;
-bool g_fanimacion = false;
 
-
-//MOD MIA
+//ANIMACION
 bool cameraMode = false;
 float giro_llanta = 0.0f;
 bool loop_animacion = true;
 
 float UpX = 0.0;
 
-//END MOD
+//END ANIMACION
 			
 void InitGL ( GLvoid )     // Inicializamos parametros
 {
@@ -164,18 +184,63 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_tree2.BuildGLTexture();
 	t_tree2.ReleaseImage();
 
+//	TEXTURAS LAB CG
+	t_fumar.LoadTGA("Texturas/CG/noFumar.tga");
+	t_fumar.BuildGLTexture();
+	t_fumar.ReleaseImage();
+
+	t_comer.LoadTGA("Texturas/CG/noComer.tga");
+	t_comer.BuildGLTexture();
+	t_comer.ReleaseImage();
+
+	t_hablar.LoadTGA("Texturas/CG/noHablar.tga");
+	t_hablar.BuildGLTexture();
+	t_hablar.ReleaseImage();
+
+	t_celular.LoadTGA("Texturas/CG/noCelular.tga");
+	t_celular.BuildGLTexture();
+	t_celular.ReleaseImage();
+
+	t_pizarron.LoadTGA("Texturas/CG/pizarron2.tga");
+	t_pizarron.BuildGLTexture();
+	t_pizarron.ReleaseImage();
+
+	t_ventana.LoadTGA("Texturas/CG/ventana.tga");
+	t_ventana.BuildGLTexture();
+	t_ventana.ReleaseImage();
+
+	t_pisoCG.LoadTGA("Texturas/CG/pisoCG.tga");
+	t_pisoCG.BuildGLTexture();
+	t_pisoCG.ReleaseImage();
+
+	t_metalCG.LoadTGA("Texturas/CG/metalCG.tga");
+	t_metalCG.BuildGLTexture();
+	t_metalCG.ReleaseImage();
+
+	t_LabCG[0] = t_fumar.GLindex;
+	t_LabCG[1] = t_comer.GLindex;
+	t_LabCG[2] = t_hablar.GLindex;
+	t_LabCG[3] = t_celular.GLindex;
+	t_LabCG[4] = t_pizarron.GLindex;
+	t_LabCG[5] = t_ventana.GLindex;
+	t_LabCG[6] = t_pisoCG.GLindex;
+	t_LabCG[7] = t_metalCG.GLindex;
+
 	//Carga de Figuras
-	hammer._3dsLoad("Modelos/hammer_paint.3ds");
-	hammer.VertexNormals();
 
 	streetLamp._3dsLoad("Modelos/streetLamp.3DS");
 	streetLamp.VertexNormals();
 
-	coche._3dsLoad("Modelos/coche.3ds");
-	coche.VertexNormals();
+	pc_Pro._3dsLoad("Modelos/pcPro.3DS");	//Buen modelo
 
-	PC._3dsLoad("Modelos/PC_CG.3DS");	//Buen modelo
+	// Por una razón que sigo sin comprender, no tienen texturas ni materiales... kinda pssed off.
+	sillaClase._3dsLoad("Modelos/sillaClase.3DS");	
+	sillaLab._3dsLoad("Modelos/sillaLab.3DS");		//Por alguna razón, no importó las patas de la derecha ???
+	trashCan._3dsLoad("Modelos/bin.3DS");
 
+	desk._3dsLoad("Modelos/desk.3ds");
+	desk.VertexNormals();
+	
 	objCamera.Position_Camera(10,2.5f,13, 10,2.5f,10, 0, 1, 0);
 
 }
@@ -292,6 +357,157 @@ void jardineras() {
 	glPopMatrix();
 }
 
+void pruebas() {
+	glDisable(GL_COLOR_MATERIAL);
+	/*glPushMatrix();
+		glTranslatef(0.0, 0.0, 20.0);
+		glScalef(0.05, 0.05, 0.05);
+		trashCan.GLrender(NULL,_SHADED,1.0);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(10.0, 0.0, 20.0);
+		glScalef(0.05, 0.05, 0.05);
+		sillaClase.GLrender(NULL, _SHADED, 1.0);
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(-10.0, 0.0, 20.0);
+		glScalef(0.05, 0.05, 0.05);
+		sillaLab.GLrender(NULL, _SHADED, 1.0);
+	glPopMatrix();*/
+
+	glDisable(GL_COLOR_MATERIAL);
+	glPushMatrix();
+		glTranslatef(0.0, 0.0, 20.0);
+		glScalef(0.008, 0.008, 0.008);
+		//glScalef(1.0, 1.0, 1.0);
+		desk.GLrender(NULL, _SHADED, 1.0);
+	glPopMatrix();
+	glEnable(GL_COLOR_MATERIAL);
+}
+
+void laboratorio() {
+	
+	glPushMatrix();
+		glTranslatef(-8.0, 3.0, -5.0);
+		salon.labCG(t_LabCG, 8.0, 3.0, 7.0);
+
+		glPushMatrix();
+			glTranslatef(0.0, 0.0, -3.495);
+			glPushMatrix();//Pizarron
+				glBindTexture(GL_TEXTURE_2D, t_pizarron.GLindex);
+				glTranslatef(-1.5, -1.2, 0.0);
+				glScalef(4.5, 4.5, 1.0);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, 0.5, 0.0);	//6
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			glPopMatrix();
+
+			glPushMatrix();
+			//NoFumar
+				glBindTexture(GL_TEXTURE_2D, t_fumar.GLindex);
+				glTranslatef(-1.2, 1.13, -3.490);
+				glScalef(0.5, 0.5, 1.0);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, 0.5, 0.0);	//6
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			//NoComer
+				glTranslatef(-0.6, 0.0, 0.0);
+				glBindTexture(GL_TEXTURE_2D, t_comer.GLindex);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, 0.5, 0.0);	//6
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			//NoHablar
+				glTranslatef(3.4, 0.0, 0.0);
+				glBindTexture(GL_TEXTURE_2D, t_hablar.GLindex);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, 0.5, 0.0);	//6
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			//NoCelular
+				glTranslatef(0.6, 0.0, 0.0);
+				glBindTexture(GL_TEXTURE_2D, t_celular.GLindex);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, 0.5, 0.0);	//6
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			glPopMatrix();
+
+			//MetalCG
+			glPushMatrix();
+				glTranslatef(-0.8, -1.49, -3.5);
+				glBindTexture(GL_TEXTURE_2D, t_metalCG.GLindex);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 1.0f, 0.0f);
+					glTexCoord2f(0.0f, 7.0f); glVertex3f(0.0, 0.0, 7.0);	//6
+					glTexCoord2f(1.0f, 7.0f); glVertex3f(0.5, 0.0, 7.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			glPopMatrix();
+
+		//	FIGURAS 3D
+			glDisable(GL_COLOR_MATERIAL);
+			glPushMatrix();	//Desk4	frente
+				glTranslatef(0.5, -1.5, -1.7);
+				glScalef(0.010, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix();	//Desk3 frente
+				glTranslatef(-3.5, -1.5, -1.7);
+				glScalef(0.007, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix();	//Desk4 medio
+				glTranslatef(0.5, -1.5, 0.0);
+				glScalef(0.01, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix();	//Desk3 medio
+				glTranslatef(-3.5, -1.5, 0.0);
+				glScalef(0.007, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix();	//Desk4 atras
+				glTranslatef(0.5, -1.5, 2.0);
+				glScalef(0.01, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glPushMatrix();	//Desk3 atras
+				glTranslatef(-3.5, -1.5, 1.8);
+				glScalef(0.007, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
+
+			glEnable(GL_COLOR_MATERIAL);
+		glPopMatrix();
+	glPopMatrix();
+}
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -314,25 +530,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				fig1.skybox(130.0, 130.0, 130.0,text1.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
-/*
-			glPushMatrix();	//Lampara
-				glDisable(GL_COLOR_MATERIAL);
-				//glRotatef(90, 0, 1, 0);
-				//glTranslatef(Lx, Ly, Lz);
-				glTranslatef(0.0, 0.0, 0.0);
-				glScalef(0.05, 0.05, 0.05);
-				streetLamp.GLrender(NULL,_SHADED,1.0);
-			glPopMatrix();
-*/
-/*			glPushMatrix();	//PC
-				glDisable(GL_COLOR_MATERIAL);
-				//glRotatef(90, 0, 1, 0);
-				//glTranslatef(Lx, Ly, Lz);
-				glTranslatef(0.0, 0.0, 10.0);
-				glScalef(0.005, 0.005, 0.005);
-				PC.GLrender(NULL, _SHADED, 1.0);
-			glPopMatrix();
-*/
+
 			glPushMatrix();	//Torre Izquierda
 				glTranslatef(-8.0, 8.502, -5.0);
 				glScalef(10.0, 15.0, 10.0);
@@ -359,6 +557,9 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 			jardineras();
 			
+			pruebas();
+			laboratorio();
+
 			//Para que el comando glColor funcione con iluminacion
 			glEnable(GL_COLOR_MATERIAL);
 
@@ -443,15 +644,15 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case ' ':		//Poner algo en movimiento
 			//Commit?
-			printf("X = %f\n", Lx);
+			/*printf("X = %f\n", Lx);
 			printf("Y = %f\n", Ly);
-			printf("Z = %f\n\n", Lz);
-			/*printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
+			printf("Z = %f\n\n", Lz);*/
+			printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
 			printf("mView.x = %f\tmView.y = %f\tmView.z = %f\n", objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
 			printf("mUp.x = %f\tmUp.y = %f\tmUp.z = %f\n", objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 			printf("glookupdown = %f\n", g_lookupdown);
 			printf("CAMERASPEED: %f\n", CAMERASPEED);
-			printf("******************************************\n");*/
+			printf("******************************************\n");
 			
 			break;
 		case '0':	//Original
@@ -480,22 +681,25 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			objCamera.Position_Camera(-36.92, 4.6, -4.69, -33.92, 4.6, -4.63, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 			break;
 		case '5':
-			Lz += 1.0;
+			//Laboratorio
+			g_lookupdown = 14.0;
+			objCamera.Position_Camera(-11.88, 3.9, -1.698, -9.65, 3.9, -3.701, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
+			//Lz += 1.0;
 			break;
 		case '6':
-			Lx += 1.0;
+			//Lx += 1.0;
 			break;
 		case '8':
-			Ly += 1.0;
+			//Ly += 1.0;
 			break;
 		case 'i':
-			Ly -= 1.0;
+			//Ly -= 1.0;
 			break;
 		case 'k':
-			Lz -= 1.0;
+			//Lz -= 1.0;
 			break;
 		case 'l':
-			Lx -= 1.0;
+			//Lx -= 1.0;
 			break;
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
