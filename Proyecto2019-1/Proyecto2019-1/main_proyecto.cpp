@@ -65,8 +65,9 @@ CTexture t_pizarron;
 CTexture t_ventana;
 CTexture t_pisoCG;
 CTexture t_metalCG;
+CTexture t_techoCG;
 
-GLuint t_LabCG [7];
+GLuint t_LabCG [9];
 
 //Figuras a "mano"
 CFiguras plancha;
@@ -97,6 +98,9 @@ CModel banca;
 float  Lx = 0.0;
 float  Ly = 0.0;
 float  Lz = 0.0;
+float aux = 0.0;
+// Banderas
+bool banderaCG = false;	//para mostrar las PC, son pesadas.
 /*
 	Modelos a tener en cuenta:
 	Proyector
@@ -217,6 +221,10 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_metalCG.BuildGLTexture();
 	t_metalCG.ReleaseImage();
 
+	t_techoCG.LoadTGA("Texturas/CG/techo.tga");
+	t_techoCG.BuildGLTexture();
+	t_techoCG.ReleaseImage();
+
 	t_LabCG[0] = t_fumar.GLindex;
 	t_LabCG[1] = t_comer.GLindex;
 	t_LabCG[2] = t_hablar.GLindex;
@@ -225,6 +233,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_LabCG[5] = t_ventana.GLindex;
 	t_LabCG[6] = t_pisoCG.GLindex;
 	t_LabCG[7] = t_metalCG.GLindex;
+	t_LabCG[8] = t_techoCG.GLindex;
 
 	//Carga de Figuras
 
@@ -235,7 +244,7 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 	// Por una razón que sigo sin comprender, no tienen texturas ni materiales... kinda pssed off.
 	sillaClase._3dsLoad("Modelos/sillaClase.3DS");	
-	sillaLab._3dsLoad("Modelos/sillaLab.3DS");		//Por alguna razón, no importó las patas de la derecha ???
+	sillaLab._3dsLoad("Modelos/chair.3DS");		//Por alguna razón, no importó las patas de la derecha ???
 	trashCan._3dsLoad("Modelos/bin.3DS");
 
 	desk._3dsLoad("Modelos/desk.3ds");
@@ -359,30 +368,11 @@ void jardineras() {
 
 void pruebas() {
 	glDisable(GL_COLOR_MATERIAL);
-	/*glPushMatrix();
-		glTranslatef(0.0, 0.0, 20.0);
-		glScalef(0.05, 0.05, 0.05);
-		trashCan.GLrender(NULL,_SHADED,1.0);
-	glPopMatrix();
-
-	glPushMatrix();
-		glTranslatef(10.0, 0.0, 20.0);
-		glScalef(0.05, 0.05, 0.05);
-		sillaClase.GLrender(NULL, _SHADED, 1.0);
-	glPopMatrix();
-
-	glPushMatrix();
-		glTranslatef(-10.0, 0.0, 20.0);
-		glScalef(0.05, 0.05, 0.05);
-		sillaLab.GLrender(NULL, _SHADED, 1.0);
-	glPopMatrix();*/
-
-	glDisable(GL_COLOR_MATERIAL);
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, 20.0);
+		glRotatef(90, 0.0, 1.0, 0.0);
 		glScalef(0.008, 0.008, 0.008);
-		//glScalef(1.0, 1.0, 1.0);
-		desk.GLrender(NULL, _SHADED, 1.0);
+		sillaLab.GLrender(NULL, _SHADED, 1.0);
 	glPopMatrix();
 	glEnable(GL_COLOR_MATERIAL);
 }
@@ -467,6 +457,8 @@ void laboratorio() {
 
 		//	FIGURAS 3D
 			glDisable(GL_COLOR_MATERIAL);
+			
+			//No puedo poner las PC con push y pop, desaparecen los renders ???
 			glPushMatrix();	//Desk4	frente
 				glTranslatef(0.5, -1.5, -1.7);
 				glScalef(0.010, 0.005, 0.005);
@@ -475,7 +467,7 @@ void laboratorio() {
 
 			glPushMatrix();	//Desk3 frente
 				glTranslatef(-3.5, -1.5, -1.7);
-				glScalef(0.007, 0.005, 0.005);
+				glScalef(0.008, 0.005, 0.005);
 				desk.GLrender(NULL, _SHADED, 1.0);
 			glPopMatrix();
 
@@ -487,7 +479,7 @@ void laboratorio() {
 
 			glPushMatrix();	//Desk3 medio
 				glTranslatef(-3.5, -1.5, 0.0);
-				glScalef(0.007, 0.005, 0.005);
+				glScalef(0.008, 0.005, 0.005);
 				desk.GLrender(NULL, _SHADED, 1.0);
 			glPopMatrix();
 
@@ -499,10 +491,74 @@ void laboratorio() {
 
 			glPushMatrix();	//Desk3 atras
 				glTranslatef(-3.5, -1.5, 1.8);
-				glScalef(0.007, 0.005, 0.005);
+				glScalef(0.008, 0.005, 0.005);
 				desk.GLrender(NULL, _SHADED, 1.0);
 			glPopMatrix();
 
+
+		//PC's
+			if (banderaCG == true) {
+				aux = -1.8;
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 3; j++) {
+						glPushMatrix();
+							glTranslatef(-3.5 + j, -0.81, aux);	//-3.5, -0.8, -1.8
+							//glTranslatef(Lx, -0.8, -1.8);
+							glScalef(0.008, 0.008, 0.008);
+							pc_Pro.GLrender(NULL, _SHADED, 1.0);
+						glPopMatrix();
+					}
+					aux += 1.8;
+				}
+
+				aux = -1.8;
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 4; j++) {
+						glPushMatrix();
+							glTranslatef(0.5 + j, -0.81, aux);	//-3.5, -0.8, -1.8
+							//glTranslatef(-3.5+Lx, -0.8+Ly, -1.8+1.8+1.8);
+							glScalef(0.008, 0.008, 0.008);
+							pc_Pro.GLrender(NULL, _SHADED, 1.0);
+						glPopMatrix();
+					}
+					aux += 1.8;
+				}
+
+/*				glPushMatrix();
+				glTranslatef(Lx,Ly, Lz);
+				//glTranslatef(0.5, -1.5, -1.0);
+				glRotatef(90, 0.0, 1.0, 0.0);
+				glScalef(0.01, 0.015, 0.01);
+				sillaLab.GLrender(NULL, _SHADED, 1.0);
+
+				glPopMatrix();*/
+			//	SILLAS
+				aux = -1.0;
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 3; j++) {
+						glPushMatrix();
+						glTranslatef(-3.5 + j * 0.8, -1.5, aux);
+						glRotatef(90, 0.0, 1.0, 0.0);
+						glScalef(0.01, 0.015, 0.01);
+						sillaLab.GLrender(NULL, _SHADED, 1.0);
+						glPopMatrix();
+					}
+					aux += 1.8;
+				}
+
+				aux = -1.0;
+				for (int i = 0; i < 3; i++) {
+					for (int j = 0; j < 4; j++) {
+						glPushMatrix();
+							glTranslatef(0.5 + j*0.8, -1.5, aux);
+							glRotatef(90, 0.0, 1.0, 0.0);
+							glScalef(0.01, 0.015, 0.01);
+							sillaLab.GLrender(NULL, _SHADED, 1.0);
+						glPopMatrix();
+					}
+					aux += 1.8;
+				}
+			}//	If
 			glEnable(GL_COLOR_MATERIAL);
 		glPopMatrix();
 	glPopMatrix();
@@ -644,15 +700,15 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case ' ':		//Poner algo en movimiento
 			//Commit?
-			/*printf("X = %f\n", Lx);
+			printf("X = %f\n", Lx);
 			printf("Y = %f\n", Ly);
-			printf("Z = %f\n\n", Lz);*/
-			printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
+			printf("Z = %f\n\n", Lz);
+			/*printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
 			printf("mView.x = %f\tmView.y = %f\tmView.z = %f\n", objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
 			printf("mUp.x = %f\tmUp.y = %f\tmUp.z = %f\n", objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 			printf("glookupdown = %f\n", g_lookupdown);
 			printf("CAMERASPEED: %f\n", CAMERASPEED);
-			printf("******************************************\n");
+			printf("******************************************\n");*/
 			
 			break;
 		case '0':	//Original
@@ -684,6 +740,8 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			//Laboratorio
 			g_lookupdown = 14.0;
 			objCamera.Position_Camera(-11.88, 3.9, -1.698, -9.65, 3.9, -3.701, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
+
+			banderaCG = !banderaCG;
 			//Lz += 1.0;
 			break;
 		case '6':
@@ -693,13 +751,22 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			//Ly += 1.0;
 			break;
 		case 'i':
-			//Ly -= 1.0;
+			Ly += 0.5;
+			break;
+		case 'I':
+			Ly -= 0.5;
 			break;
 		case 'k':
-			//Lz -= 1.0;
+			Lz += 0.5;
+			break;
+		case 'K':
+			Lz -= 0.5;
 			break;
 		case 'l':
-			//Lx -= 1.0;
+			Lx += 0.5;
+			break;
+		case 'L':
+			Lx -= 0.5;
 			break;
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa

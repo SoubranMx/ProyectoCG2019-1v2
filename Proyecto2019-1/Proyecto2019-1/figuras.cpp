@@ -1327,7 +1327,7 @@ void CFiguras::tree(GLuint text) {
 	glEnable(GL_LIGHTING);
 }
 
-void CFiguras::labCG(GLuint text [8], float largo, float altura, float profundidad) {
+void CFiguras::labCG(GLuint text [9], float largo, float altura, float profundidad) {
 	//texturas:
 	/*
 		0	NoFumar
@@ -1338,6 +1338,7 @@ void CFiguras::labCG(GLuint text [8], float largo, float altura, float profundid
 		5	Ventana
 		6	PisoCG
 		7	PisoMetal
+		8	Techo
 	*/
 	GLfloat vertice[8][3] = {
 				{0.5*largo ,-0.5*altura, 0.5*profundidad},    //Coordenadas Vértice 1 V1
@@ -1398,13 +1399,13 @@ void CFiguras::labCG(GLuint text [8], float largo, float altura, float profundid
 		glTexCoord2f(0.0f , 20.0f); glVertex3fv(vertice[3]);
 	glEnd();
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, text[8]);
 	glBegin(GL_POLYGON);  //Top
 		glNormal3f(0.0f, -1.0f, 0.0f);
 		glTexCoord2f(0.0f, 0.0f); glVertex3fv(vertice[4]);
-		glTexCoord2f(1.0f, 0.0f); glVertex3fv(vertice[5]);
-		glTexCoord2f(1.0f, 1.0f); glVertex3fv(vertice[6]);
-		glTexCoord2f(0.0f, 1.0f); glVertex3fv(vertice[7]);
+		glTexCoord2f(6.0f, 0.0f); glVertex3fv(vertice[5]);
+		glTexCoord2f(6.0f, 6.0f); glVertex3fv(vertice[6]);
+		glTexCoord2f(0.0f, 6.0f); glVertex3fv(vertice[7]);
 	glEnd();
 
 
