@@ -18,6 +18,13 @@
 #   pragma comment( lib, "legacy_stdio_definitions.lib" )
 #endif
 
+
+// Variables used to calculate frames per second: (Windows)
+DWORD dwFrames = 0;
+DWORD dwCurrentTime = 0;
+DWORD dwLastUpdateTime = 0;
+DWORD dwElapsedTime = 0;
+
 CCamera objCamera; 
 GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW) 
 
@@ -69,6 +76,8 @@ CTexture t_techoCG;
 
 GLuint t_LabCG [9];
 
+
+CTexture t_pizarronCG;
 //Figuras a "mano"
 CFiguras plancha;
 CFiguras torreIzquierda;
@@ -99,8 +108,18 @@ float  Lx = 0.0;
 float  Ly = 0.0;
 float  Lz = 0.0;
 float aux = 0.0;
+
+float iPizCG = 1.0;
+float jPizCG = 0.0;
+float iTree = 0.0;
+float jTree = 0.0;
+float iLamp = 0.0;
+float jLamp = 0.0;
 // Banderas
 bool banderaCG = false;	//para mostrar las PC, son pesadas.
+bool f_PizarronCG = false;
+bool f_TreeCG = false;
+bool f_LampCG = false;
 /*
 	Modelos a tener en cuenta:
 	Proyector
@@ -235,6 +254,11 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_LabCG[7] = t_metalCG.GLindex;
 	t_LabCG[8] = t_techoCG.GLindex;
 
+	t_pizarronCG.LoadTGA("Texturas/CG/labCG.tga");
+	t_pizarronCG.BuildGLTexture();
+	t_pizarronCG.ReleaseImage();
+	
+
 	//Carga de Figuras
 
 	streetLamp._3dsLoad("Modelos/streetLamp.3DS");
@@ -298,14 +322,23 @@ void jardineras() {
 		glEnable(GL_LIGHTING);
 		glPushMatrix();	//Arbol
 			glTranslatef(-5.0, 1.0, -4.0);
-			tree.tree(t_tree.GLindex);
+			glPushMatrix();
+				glRotatef(iTree, 0.0, 1.0, 0.0);
+				glTranslatef(0.0, jTree, 0.0);
+				tree.tree(t_tree.GLindex);
+			glPopMatrix();
+			//tree.tree(t_tree.GLindex);
 		glPopMatrix();
 	glPopMatrix();
 	glPushMatrix();	//H
 		glTranslatef(13.0, 1.052, 12.0);
 		glPushMatrix();	//Arbol
 			glTranslatef(5.0, 0.0, -4.0);
-			tree.tree(t_tree.GLindex);
+			glPushMatrix();
+				glRotatef(iTree, 0.0, 1.0, 0.0);
+				glTranslatef(0.0, jTree, 0.0);
+				tree.tree(t_tree.GLindex);
+			glPopMatrix();
 		glPopMatrix();
 		glRotatef(180, 0.0, 0.0, 1.0);
 		glDisable(GL_LIGHTING);
@@ -317,7 +350,12 @@ void jardineras() {
 		glTranslatef(-8.0, 1.052, -17.0);
 		glPushMatrix();	//Arbol
 			glTranslatef(-4.0, -0.05, -2.0);
-			tree.tree(t_tree2.GLindex);
+		//	tree.tree(t_tree2.GLindex);
+			glPushMatrix();
+				glRotatef(iTree, 0.0, 1.0, 0.0);
+				glTranslatef(0.0, jTree, 0.0);
+				tree.tree(t_tree2.GLindex);
+			glPopMatrix();
 		glPopMatrix();
 		glRotatef(180, 0.0, 0.0, 1.0);
 		glRotatef(-90, 0.0, 1.0, 0.0);
@@ -330,7 +368,12 @@ void jardineras() {
 		glTranslatef(8.0, 0.052, -17.0);
 		glPushMatrix();	//Arbol
 			glTranslatef(4.0, 0.95, -2.0);
+			glPushMatrix();
+				glRotatef(iTree, 0.0, 1.0, 0.0);
+				glTranslatef(0.0, jTree, 0.0);
 			tree.tree(t_tree2.GLindex);
+			glPopMatrix();
+			//tree.tree(t_tree2.GLindex);
 		glPopMatrix();
 		glRotatef(-90, 0.0, 1.0, 0.0);
 		glDisable(GL_LIGHTING);
@@ -341,10 +384,12 @@ void jardineras() {
 	glPushMatrix();	//I
 		glTranslatef(-6.0, 0.052, 20.0);
 		glPushMatrix();	//Lampara
-			glTranslatef(-21,0.4,-11.2);	//-21,0.3,-11
-			//glTranslatef(Lx, Ly, Lz);
+			glTranslatef(-21,0.4,-11.2);
 			glScalef(0.05, 0.05, 0.05);
-			streetLamp.GLrender(NULL, _SHADED, 1.0);
+			glPushMatrix();
+				glTranslatef(iLamp, 0.0, 0.0);
+				streetLamp.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
 		glPopMatrix();
 		glDisable(GL_LIGHTING);
 		jardinera.jardineraI(t_tierra.GLindex, t_pasto.GLindex);
@@ -355,9 +400,11 @@ void jardineras() {
 		glTranslatef(6.0, 1.052, 20.0);
 		glPushMatrix();	//Lampara
 			glTranslatef(-8.2,-0.5,-11.2);
-			//glTranslatef(Lx, Ly, Lz);	//-8,-0.5,-11
 			glScalef(0.05, 0.05, 0.05);
-			streetLamp.GLrender(NULL, _SHADED, 1.0);
+			glPushMatrix();
+				glTranslatef(-jLamp, 0.0, 0.0);
+				streetLamp.GLrender(NULL, _SHADED, 1.0);
+			glPopMatrix();
 		glPopMatrix();
 		glRotatef(180, 0.0, 0.0, 1.0);
 		glDisable(GL_LIGHTING);
@@ -395,6 +442,16 @@ void laboratorio() {
 					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
 					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
 					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+				// ANIMACION
+				glBindTexture(GL_TEXTURE_2D, t_pizarronCG.GLindex);
+				glTranslatef(0.05, 0.03, 0.0);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(jPizCG      , iPizCG);		glVertex3f(0.0, 0.4, 0.1);
+					glTexCoord2f(jPizCG+0.166, iPizCG);		glVertex3f(0.4, 0.4, 0.1);
+					glTexCoord2f(jPizCG+0.166, iPizCG-0.2); glVertex3f(0.4, 0.0, 0.1);
+					glTexCoord2f(jPizCG      , iPizCG-0.2); glVertex3f(0.0, 0.0, 0.1);
 				glEnd();
 			glPopMatrix();
 
@@ -650,7 +707,64 @@ void animacion()
 		fig3.text_izq=0;
 	if(fig3.text_der<0)
 		fig3.text_der=1;
+	// Calculate the number of frames per one second:
+	//dwFrames++;
+	dwCurrentTime = GetTickCount(); // Even better to use timeGetTime()
+	dwElapsedTime = dwCurrentTime - dwLastUpdateTime;
 
+	if (dwElapsedTime >= 80)
+	{
+		//Animacion Pizarron
+		if (f_PizarronCG == true) {
+
+			if (iPizCG >= 0) {
+				iPizCG -= 0.2;
+				if (jPizCG <= 1.0) {
+					jPizCG += 0.166;
+				}
+				else
+					jPizCG = 0.0;
+			}
+			else {
+				iPizCG = 1.0;
+			}
+		}
+			
+
+		dwLastUpdateTime = dwCurrentTime;
+	}
+	if (dwElapsedTime >= 30)
+	{
+
+		if (f_TreeCG == true) {
+			if (jTree <= 10) {
+				jTree += 0.2;
+				iTree += 1.5;
+			}
+			else {
+				jTree = 0.0;
+				iTree = 0.0;
+			}
+		}
+
+		dwLastUpdateTime = dwCurrentTime;
+	}
+	if (dwElapsedTime >= 30)
+	{
+		if (f_LampCG == true) {
+			if (iLamp <= 500) {
+				iLamp+=2;
+			}
+			else
+				iLamp = 0;
+			if (jLamp <= 500) {
+				jLamp+=2;
+			}
+			else
+				jLamp = 0;
+		}
+		dwLastUpdateTime = dwCurrentTime;
+	}
 	
 	glutPostRedisplay();
 }
@@ -744,11 +858,19 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			banderaCG = !banderaCG;
 			//Lz += 1.0;
 			break;
-		case '6':
-			//Lx += 1.0;
+		case '7':
+			f_LampCG = !f_LampCG;
+			iLamp = 0.0;
 			break;
 		case '8':
-			//Ly += 1.0;
+			f_TreeCG = !f_TreeCG;
+			iTree = 0.0;
+			jTree = 0.0;
+			break;
+		case '9':
+			f_PizarronCG = !f_PizarronCG;
+			iPizCG = 1.0;
+			jPizCG = 0.0;
 			break;
 		case 'i':
 			Ly += 0.5;
