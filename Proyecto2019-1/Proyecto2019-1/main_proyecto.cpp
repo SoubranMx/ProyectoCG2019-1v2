@@ -157,7 +157,122 @@ bool loop_animacion = true;
 float UpX = 0.0;
 
 //END ANIMACION
-			
+
+//	*********************	KEYFRAMES ***************
+float angleDedoI = 0.0f;
+float angleDedoE = 0.0f;
+float angleCodo = 0.0f;
+float angleBrazo = 0.0f;
+
+float transZ = 0.0f;
+float transX = 0.0f;
+float transY = 0.0f;
+
+float angleX = 0.0f;
+float angleY = 0.0f;
+float angleZ = 0.0f;
+
+float red[3] = { 1.0, 0.0, 0.0 };
+float green[3] = { 0.0,1.0,0.0 };
+float blue[3] = { 0.0,0.0,1.0 };
+float white[3] = { 1.0,1.0,1.0 };
+float yellow[3] = { 1.0,1.0,0.0 };
+
+#define MAX_FRAMES 15		//5 keyframes
+int i_max_steps = 90;		//Cantidad de cuadros intermedios	valores pequeños: animacion rápida, valores grandes: animación más pausada
+int i_curr_steps = 0;
+
+typedef struct _frame {
+	//Variables para guardar KeyFrames
+	float angleDedoI;
+	float angleDedoE;
+	float angleCodo;
+	float angleBrazo;
+
+	float transZ;
+	float transX;
+	float transY;
+
+	float angleX;
+	float angleY;
+	float angleZ;
+
+	//Incrementos
+	float angleDedoIinc;
+	float angleDedoEinc;
+	float angleCodoinc;
+	float angleBrazoinc;
+
+	float transXinc;
+	float transYinc;
+	float transZinc;
+
+	float angleXinc;
+	float angleYinc;
+	float angleZinc;
+
+} FRAME;
+FRAME KeyFrame[MAX_FRAMES];
+int FrameIndex = 0;			//introducir datos
+bool play = false;
+int playIndex = 0;
+int w = 500, h = 500;
+int frame = 0, time, timebase = 0;
+char s[30];
+
+//	*********************	KEYFRAMES ***************			
+
+void saveFrame(void) {
+	printf("frameindex %d\n", FrameIndex);
+
+	KeyFrame[FrameIndex].transX = transX;
+	KeyFrame[FrameIndex].transY = transY;
+	KeyFrame[FrameIndex].transZ = transZ;
+
+	KeyFrame[FrameIndex].angleDedoI = angleDedoI;
+	KeyFrame[FrameIndex].angleDedoE = angleDedoE;
+	KeyFrame[FrameIndex].angleCodo = angleCodo;
+	KeyFrame[FrameIndex].angleBrazo = angleBrazo;
+
+	KeyFrame[FrameIndex].angleX = angleX;
+	KeyFrame[FrameIndex].angleY = angleY;
+	KeyFrame[FrameIndex].angleZ = angleZ;
+
+	FrameIndex++;
+}
+void resetElements(void)
+{
+	transX = KeyFrame[0].transX;
+	transY = KeyFrame[0].transY;
+	transZ = KeyFrame[0].transZ;
+
+	angleDedoI = KeyFrame[0].angleDedoI;
+	angleDedoE = KeyFrame[0].angleDedoE;
+	angleCodo = KeyFrame[0].angleCodo;
+	angleBrazo = KeyFrame[0].angleBrazo;
+
+	angleX = KeyFrame[0].angleX;
+	angleY = KeyFrame[0].angleY;
+	angleZ = KeyFrame[0].angleZ;
+}
+void interpolation(void)
+{
+	//Los incrementos
+	KeyFrame[playIndex].transXinc = (KeyFrame[playIndex + 1].transX - KeyFrame[playIndex].transX) / i_max_steps;
+	KeyFrame[playIndex].transYinc = (KeyFrame[playIndex + 1].transY - KeyFrame[playIndex].transY) / i_max_steps;
+	KeyFrame[playIndex].transZinc = (KeyFrame[playIndex + 1].transZ - KeyFrame[playIndex].transZ) / i_max_steps;
+
+	KeyFrame[playIndex].angleDedoIinc = (KeyFrame[playIndex + 1].angleDedoI - KeyFrame[playIndex].angleDedoI) / i_max_steps;
+	KeyFrame[playIndex].angleDedoEinc = (KeyFrame[playIndex + 1].angleDedoE - KeyFrame[playIndex].angleDedoE) / i_max_steps;
+	KeyFrame[playIndex].angleCodoinc = (KeyFrame[playIndex + 1].angleCodo - KeyFrame[playIndex].angleCodo) / i_max_steps;
+	KeyFrame[playIndex].angleBrazoinc = (KeyFrame[playIndex + 1].angleBrazo - KeyFrame[playIndex].angleBrazo) / i_max_steps;
+
+	KeyFrame[playIndex].angleXinc = (KeyFrame[playIndex + 1].angleX - KeyFrame[playIndex].angleX) / i_max_steps;
+	KeyFrame[playIndex].angleYinc = (KeyFrame[playIndex + 1].angleY - KeyFrame[playIndex].angleY) / i_max_steps;
+	KeyFrame[playIndex].angleZinc = (KeyFrame[playIndex + 1].angleZ - KeyFrame[playIndex].angleZ) / i_max_steps;
+}
+
+//	*************	KEY FRAMES	*********************
 void InitGL ( GLvoid )     // Inicializamos parametros
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);				// Negro de fondo	
@@ -298,6 +413,36 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	
 	objCamera.Position_Camera(10,2.5f,13, 10,2.5f,10, 0, 1, 0);
 
+	//	**************	KEY FRAMES	**************
+	for (int i = 0; i < MAX_FRAMES; i++)
+	{
+		KeyFrame[i].transX = 0;
+		KeyFrame[i].transY = 0;
+		KeyFrame[i].transZ = 0;
+
+		KeyFrame[i].angleDedoI = 0;
+		KeyFrame[i].angleDedoE = 0;
+		KeyFrame[i].angleCodo = 0;
+		KeyFrame[i].angleBrazo = 0;
+
+		KeyFrame[i].angleX = 0;
+		KeyFrame[i].angleY = 0;
+		KeyFrame[i].angleZ = 0;
+
+		KeyFrame[i].transXinc = 0;
+		KeyFrame[i].transYinc = 0;
+		KeyFrame[i].transZinc = 0;
+
+		KeyFrame[i].angleDedoIinc = 0;
+		KeyFrame[i].angleDedoEinc = 0;
+		KeyFrame[i].angleCodoinc = 0;
+		KeyFrame[i].angleBrazoinc = 0;
+
+		KeyFrame[i].angleXinc = 0;
+		KeyFrame[i].angleYinc = 0;
+		KeyFrame[i].angleZinc = 0;
+	}
+
 }
 
 void pintaTexto(float x, float y, float z, void *font,char *string)
@@ -433,17 +578,6 @@ void jardineras() {
 		jardinera.jardineraJ(t_tierra.GLindex, t_pasto.GLindex);
 		glEnable(GL_LIGHTING);
 	glPopMatrix();
-}
-
-void pruebas() {
-	glDisable(GL_COLOR_MATERIAL);
-	glPushMatrix();
-		glTranslatef(0.0, 0.0, 20.0);
-		glRotatef(90, 0.0, 1.0, 0.0);
-		glScalef(0.008, 0.008, 0.008);
-		sillaLab.GLrender(NULL, _SHADED, 1.0);
-	glPopMatrix();
-	glEnable(GL_COLOR_MATERIAL);
 }
 
 void laboratorio() {
@@ -778,6 +912,195 @@ void aula() {
 		*/
 
 
+void prisma(float color[3])
+{
+	GLfloat vertice[8][3] = {
+		{ 0.5 ,-0.5, 0.5 },    //Coordenadas Vértice 0 V0
+		{ -0.5 ,-0.5, 0.5 },    //Coordenadas Vértice 1 V1
+		{ -0.5 ,-0.5, -0.5 },    //Coordenadas Vértice 2 V2
+		{ 0.5 ,-0.5, -0.5 },    //Coordenadas Vértice 3 V3
+		{ 0.5 ,0.5, 0.5 },    //Coordenadas Vértice 4 V4
+		{ 0.5 ,0.5, -0.5 },    //Coordenadas Vértice 5 V5
+		{ -0.5 ,0.5, -0.5 },    //Coordenadas Vértice 6 V6
+		{ -0.5 ,0.5, 0.5 },    //Coordenadas Vértice 7 V7
+	};
+
+	glColor3fv(color);
+	glBegin(GL_POLYGON);	//Front
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3fv(vertice[0]);
+	glVertex3fv(vertice[4]);
+	glVertex3fv(vertice[7]);
+	glVertex3fv(vertice[1]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//Right
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3fv(vertice[0]);
+	glVertex3fv(vertice[3]);
+	glVertex3fv(vertice[5]);
+	glVertex3fv(vertice[4]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//Back
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3fv(vertice[6]);
+	glVertex3fv(vertice[5]);
+	glVertex3fv(vertice[3]);
+	glVertex3fv(vertice[2]);
+	glEnd();
+
+	glBegin(GL_POLYGON);  //Left
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3fv(vertice[1]);
+	glVertex3fv(vertice[7]);
+	glVertex3fv(vertice[6]);
+	glVertex3fv(vertice[2]);
+	glEnd();
+
+	glBegin(GL_POLYGON);  //Bottom
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3fv(vertice[0]);
+	glVertex3fv(vertice[1]);
+	glVertex3fv(vertice[2]);
+	glVertex3fv(vertice[3]);
+	glEnd();
+
+	glBegin(GL_POLYGON);  //Top
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3fv(vertice[4]);
+	glVertex3fv(vertice[5]);
+	glVertex3fv(vertice[6]);
+	glVertex3fv(vertice[7]);
+	glEnd();
+}
+
+void dedoExterno(float rotate) {	//Solo debe generar un dedo y ya está
+	glPushMatrix();
+	glTranslatef(0.375, 0.0, 0.0);
+	glRotatef(angleDedoE, 0.0, 0.0, rotate);	//Rotación Dedo Externo
+	glTranslatef(0.250, 0.0, 0.0);
+	//Construccion del dedo externo
+	glPushMatrix();
+	glScalef(0.5, 0.3, 0.25);
+	prisma(white);
+	glPopMatrix();
+	glPopMatrix();
+
+}
+
+void dedoInterno(float x, float y, float z, float rotate) {
+	glPushMatrix();
+	glTranslatef(x, y, z);
+	glRotatef(angleDedoI, 0.0, 0.0, rotate);	//Rotación Dedo Interno
+	glTranslatef(0.375, 0.0, 0.0);
+	//Construccion del dedo Interno
+	glPushMatrix();
+	glScalef(0.75, 0.3, 0.25);
+	prisma(green);
+	glPopMatrix();
+	dedoExterno(-rotate);
+	glPopMatrix();
+
+}
+
+void parteC() {
+	glPushMatrix();		//Dedos
+	glTranslatef(1.0, 0.0, 0.0);
+	//Pivote = 3.5,0,0
+	glPushMatrix();
+	//Dedos generalizados
+	dedoInterno(0.0, 0.35, 0.375, -1.0);	//Genera Dedo C y D
+	dedoInterno(0.0, 0.35, 0.0, -1.0);		//Genera Dedo G y H
+	dedoInterno(0.0, 0.35, -0.375, -1.0);	//Genera Dedo I y J
+	dedoInterno(0.0, -0.35, 0.375, 1.0);	//Genera Dedo E y F
+
+	//Individualizacion de los dedos
+	/*glPushMatrix();
+		glTranslatef(0.0, 0.35, 0.375);
+		glRotatef(angleDedoI, 0.0, 0.0, -1.0);
+		glTranslatef(0.375, 0.0, 0.0);
+		dedoInterno();	//Dedo C
+		//glTranslatef(0.375, 0.0, 0.0);
+		dedoExterno();	//DedoD
+
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(0.0, 0.35, 0.0);
+		glRotatef(angleDedoI, 0.0, 0.0, 1.0);
+		glTranslatef(0.375, 0.0, 0.0);
+		dedoInterno();	//Dedo G
+		dedoExterno();		//Dedo H
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(0.0, 0.35, -0.375);
+		glRotatef(angleDedoI, 0.0, 0.0, -1.0);
+		glTranslatef(0.375, 0.0, 0.0);
+		dedoInterno();	//Dedo I
+		dedoExterno();		//Dedo J
+	glPopMatrix();
+	glPushMatrix();
+		glTranslatef(0.0, -0.35, 0.375);
+		glRotatef(angleDedoI, 0.0, 0.0, 1.0);
+		glTranslatef(0.375, 0.0, 0.0);
+		dedoInterno();	//Dedo E
+		dedoExterno();		//Dedo F
+	glPopMatrix();*/
+	glPopMatrix();
+	glPopMatrix();
+}
+
+void parteB() {
+	glPushMatrix();		//Parte B
+	glTranslatef(0.75, 0.0, 0.0);	//Pivote = 1.5,0,0
+	glRotatef(angleCodo, 0.0, 0.0, 1.0);		//Rotación del CODO
+	glTranslatef(1.0, 0.0, 0.0);
+	//Pivote = 2.5,0,0
+	glPushMatrix();
+	glScalef(2.0, 1.0, 1.0);
+	prisma(blue);
+	//Prisma generado a partir de 2.5,0,0
+	glPopMatrix();
+	//Pivote = 2.5,0,0
+	parteC();
+	glPopMatrix();
+}
+
+void parteA() {
+	glPushMatrix();		//Parte A
+		//Pivote = 0,0,0
+	glRotatef(angleBrazo, 0.0, 0.0, 1.0);	//Rotación a partir de 0,0,0.	Rotación del BRAZO
+	glTranslatef(0.75, 0.0, 0.0);		//Si ya empezamos en 0,0,0 entonces de ahi rotar y generar la figura a partir de 0.75,0,0
+	//Pivote 0.75,0,0
+	glPushMatrix();
+	glScalef(1.5, 1.0, 1.0);
+	prisma(red);
+	//Prisma generado a partir de 0.75,0,0
+	glPopMatrix();
+	//Pivote en 0.75,0,0
+	parteB();
+
+	glPopMatrix();
+}
+
+void pruebas() {
+	glPushMatrix();
+		glPushMatrix();
+			glEnable(GL_COLOR_MATERIAL);
+			glTranslatef(transX, transY, transZ);
+			glRotatef(angleY, 0.0, 1.0, 0.0);
+			glRotatef(angleX, 1.0, 0.0, 0.0);
+			glRotatef(angleZ, 0.0, 0.0, 1.0);
+			//Poner Código Aquí.
+			glPushMatrix();
+				glRotatef(angleZ, 0.0, 0.0, 1.0);
+				parteA();
+			glPopMatrix();
+			glDisable(GL_COLOR_MATERIAL);
+		glPopMatrix();
+	glPopMatrix();
+}
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -827,9 +1150,13 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 			jardineras();
 			
-			//pruebas();
+			
 			laboratorio();
 			aula();
+
+			//pruebas();
+			//	¿Porque se cambia el laboratorio=?!?!?!?!?!?
+			
 
 			//Para que el comando glColor funcione con iluminacion
 			glEnable(GL_COLOR_MATERIAL);
@@ -924,6 +1251,49 @@ void animacion()
 		dwLastUpdateTime = dwCurrentTime;
 	}
 	
+	//Movimiento del brazo mecánico
+	if (play)
+	{
+
+		if (i_curr_steps >= i_max_steps) //end of animation between frames?
+		{
+			playIndex++;
+			if (playIndex > FrameIndex - 2)	//end of total animation?
+			{
+				printf("termina anim\n");
+				playIndex = 0;
+				play = false;
+			}
+			else //Next frame interpolations
+			{
+				i_curr_steps = 0; //Reset counter
+				//Interpolation
+				interpolation();
+
+			}
+		}
+		else
+		{
+			//Draw animation
+			transX += KeyFrame[playIndex].transXinc;
+			transY += KeyFrame[playIndex].transYinc;
+			transZ += KeyFrame[playIndex].transZinc;
+
+			angleDedoI += KeyFrame[playIndex].angleDedoIinc;
+			angleDedoE += KeyFrame[playIndex].angleDedoEinc;
+			angleCodo += KeyFrame[playIndex].angleCodoinc;
+			angleBrazo += KeyFrame[playIndex].angleBrazoinc;
+
+			angleX += KeyFrame[playIndex].angleXinc;
+			angleY += KeyFrame[playIndex].angleYinc;
+			angleZ += KeyFrame[playIndex].angleZinc;
+
+
+			i_curr_steps++;
+		}
+
+	}
+
 	glutPostRedisplay();
 }
 
@@ -1057,6 +1427,144 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		case 'L':
 			Lx -= 0.5;
 			break;
+
+		/*
+		case 'u':
+		case 'U':
+			if (angleBrazo < 90.0) {
+				angleBrazo += efe;
+			}
+			break;
+		case 'i':
+		case 'I':
+			if (angleCodo < 90.0)
+				angleCodo += efe;
+			break;
+		case 'j':
+		case 'J':
+			if (angleBrazo > -90.0)
+				angleBrazo -= efe;
+			break;
+		case 'k':
+		case 'K':
+			if (angleCodo > 0)
+				angleCodo -= efe;
+			break;
+
+		case 'O':
+			if (angleDedoI < 0.0)
+				angleDedoI += efe;
+			break;
+		case 'o':
+			if (angleDedoI > -90.0)
+				angleDedoI -= efe;
+			break;
+
+		case 'L':
+			if (angleDedoE < 0.0)
+				angleDedoE += efe;
+			break;
+		case 'l':
+			if (angleDedoE > -90.0)
+				angleDedoE -= efe;
+			break;
+
+			//Animacion de los dedos
+		case 'P':
+			if (angleDedoI < 0.0) {
+				angleDedoI += efe;
+				if (angleDedoE < 0.0)
+					angleDedoE += efe;
+			}
+			break;
+		case 'p':
+			if (angleDedoI > -90.0) {
+				angleDedoI -= efe;
+				if (angleDedoE > -90.0)
+					angleDedoE -= efe;
+			}
+			break;
+
+			case '5':		//
+			//case 'K':
+				if(FrameIndex<MAX_FRAMES)
+				{
+					saveFrame();
+				}
+
+				break;
+
+			//case 'l':
+			case '6':
+				if(play==false && (FrameIndex>1))
+				{
+
+					resetElements();
+					//First Interpolation
+					interpolation();
+
+					play=true;
+					playIndex=0;
+					i_curr_steps = 0;
+				}
+				else
+				{
+					play=false;
+				}
+				break;
+			case '7':
+				for (int i = 0; i < FrameIndex; i++) {
+					printf("Frame [%d]\n", i);
+					printf("transX = %f\ntransY = %f\ntransZ = %f\n", KeyFrame[i].transX, KeyFrame[i].transY, KeyFrame[i].transZ);
+					printf("angleX = %f\nangleY = %f\nangleZ = %f\n", KeyFrame[i].angleX, KeyFrame[i].angleY, KeyFrame[i].angleZ);
+					printf("angleDedoI = %f\nangleDedoE = %f\nangleCodo = %f\nangleBrazo = %f", KeyFrame[i].angleDedoI, KeyFrame[i].angleDedoE, KeyFrame[i].angleCodo, KeyFrame[i].angleBrazo);
+					printf("\nIncrementos:\n");
+					printf("transXinc = %f\ntransYinc = %f\ntransZinc = %f\n", KeyFrame[i].transXinc, KeyFrame[i].transYinc, KeyFrame[i].transZinc);
+					printf("angleXinc = %f\nangleYinc = %f\nangleZinc = %f\n", KeyFrame[i].angleXinc, KeyFrame[i].angleYinc, KeyFrame[i].angleZinc);
+					printf("angleDedoIinc = %f\nangleDedoEinc = %f\nangleCodoinc = %f\nangleBrazoinc = %f\n", KeyFrame[i].angleDedoIinc, KeyFrame[i].angleDedoEinc, KeyFrame[i].angleCodoinc, KeyFrame[i].angleBrazoinc);
+					printf("******************************************\n\n");
+				}
+				break;
+
+			case 'f':
+				transX -= 0.2f;
+				break;
+			case 'h':
+				transX += 0.2f;
+				break;
+			case 'g':
+				transZ -= 0.2f;
+				break;
+			case 't':
+				transZ += 0.2f;
+				break;
+			case 'r':
+				transY += 0.2f;
+				break;
+			case 'R':
+				transY -= 0.2f;
+				break;
+
+			case 'c':
+				angleX += 0.5f;
+				break;
+			case 'v':
+				angleY += 0.5f;
+				break;
+			case 'b':
+				angleZ += 0.5f;
+				break;
+
+			case 'C':
+				angleX -= 0.5f;
+				break;
+			case 'V':
+				angleY -= 0.5f;
+				break;
+			case 'B':
+				angleZ -= 0.5f;
+				break;
+		*/
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
 			break;        
