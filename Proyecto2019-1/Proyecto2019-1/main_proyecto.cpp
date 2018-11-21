@@ -641,6 +641,7 @@ void laboratorio() {
 }
 
 void aula() {
+	glDisable(GL_COLOR_MATERIAL);
 	glPushMatrix();	//Push General
 		glTranslatef(8.0, 3.0, -5.0);
 		salon.aulaI(t_aulaI, 8.0, 3.0, 7.0);
@@ -684,7 +685,7 @@ void aula() {
 
 
 		//SILLAS
-			if (banderaCG == true) {
+			if (banderaAula == true) {
 
 
 				//	SILLAS
@@ -704,25 +705,32 @@ void aula() {
 				// ESCRITORIOS
 
 				glPushMatrix();	//Desk1 frente
-				glTranslatef(1.5, -1.6, 2.0);
-				glScalef(0.01, 0.005, 0.005);
-				desk.GLrender(NULL, _SHADED, 1.0);
+					glTranslatef(1.5, -1.5, 2.0);
+					glScalef(0.005, 0.005, 0.005);
+					desk.GLrender(NULL, _SHADED, 1.0);
 				glPopMatrix();
 
 				glPushMatrix();	//Desk2	lado
-				glTranslatef(3.0, -1.6, 2.5);
-				glRotatef(-90, 0.0, 1.0, 0.0);
-				glScalef(0.003, 0.005, 0.005);
-				desk.GLrender(NULL, _SHADED, 1.0);
+					glTranslatef(3.0, -1.5, 2.5);
+					glRotatef(-90, 0.0, 1.0, 0.0);
+					glScalef(0.003, 0.005, 0.005);
+					desk.GLrender(NULL, _SHADED, 1.0);
 				glPopMatrix();
 
 				//PC
 
 				glPushMatrix();
-				glTranslatef(1.6, -1.6, 3.0);
-				glRotatef(90, 0.0, 1.0, 0.0);
-				glScalef(0.008, 0.008, 0.008);
-				pc_Pro.GLrender(NULL, _SHADED, 1.0);
+					glTranslatef(2.8, -0.8, 3.0);
+					glRotatef(-90, 0.0, 1.0, 0.0);
+					glScalef(0.008, 0.008, 0.008);
+					pc_Pro.GLrender(NULL, _SHADED, 1.0);
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(1.7 , -1.5, 3.0);
+					glRotatef(180, 0.0, 1.0, 0.0);
+					glScalef(0.03, 0.04, 0.02);
+					sillaLab.GLrender(NULL, _SHADED, 1.0);
 				glPopMatrix();
    
 			}
@@ -730,6 +738,7 @@ void aula() {
 			glPopMatrix();	//Pop de banderaAula
 			glPopMatrix();	//Pop del fix
 			glPopMatrix();	//Pop General
+			glEnable(GL_COLOR_MATERIAL);
 }
 		//	SILLAS
 		//if (banderaAula == true) {
@@ -974,7 +983,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			printf("******************************************\n");*/
 			
 			//Activa y desactiva la carga de modelos
-			banderaCG = !banderaCG;
+			//banderaCG = !banderaCG;
 			banderaAula = !banderaAula;
 
 			break;
