@@ -443,6 +443,277 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 		KeyFrame[i].angleZinc = 0;
 	}
 
+	//Frame 0
+	KeyFrame[0].transX = 0.0;
+	KeyFrame[0].transY = 0.0;
+	KeyFrame[0].transZ = 0.0;
+
+	KeyFrame[0].angleDedoI = 0.0;
+	KeyFrame[0].angleDedoE = 0.0;
+	KeyFrame[0].angleCodo = 0.0;
+	KeyFrame[0].angleBrazo = 0.0;
+
+	KeyFrame[0].angleX = 0.0;
+	KeyFrame[0].angleY = 0.0;
+	KeyFrame[0].angleZ = 0.0;
+
+	KeyFrame[0].transXinc = 0.0;
+	KeyFrame[0].transYinc = 0.0;
+	KeyFrame[0].transZinc = 0.0;
+
+	KeyFrame[0].angleDedoIinc = -1.0;
+	KeyFrame[0].angleDedoEinc = 0.0;
+	KeyFrame[0].angleCodoinc = 0.266;
+	KeyFrame[0].angleBrazoinc = 0.088;
+
+	KeyFrame[0].angleXinc = 0.0;
+	KeyFrame[0].angleYinc = 0.0;
+	KeyFrame[0].angleZinc = 0.0;
+
+	//Frame 1
+	KeyFrame[1].transX = 0.0;
+	KeyFrame[1].transY = 0.0;
+	KeyFrame[1].transZ = 0.0;
+
+	KeyFrame[1].angleDedoI = -90.0;
+	KeyFrame[1].angleDedoE = 0.0;
+	KeyFrame[1].angleCodo = 24.0;
+	KeyFrame[1].angleBrazo = 8.0;
+
+	KeyFrame[1].angleX = 0.0;
+	KeyFrame[1].angleY = 0.0;
+	KeyFrame[1].angleZ = 0.0;
+
+	KeyFrame[1].transXinc = -0.0133;
+	KeyFrame[1].transYinc = 0.0;
+	KeyFrame[1].transZinc = 0.0;
+
+	KeyFrame[1].angleDedoIinc = 0.0;
+	KeyFrame[1].angleDedoEinc = -1.0;
+	KeyFrame[1].angleCodoinc = 0.333;
+	KeyFrame[1].angleBrazoinc = -0.244;
+
+	KeyFrame[1].angleXinc = -0.0166;
+	KeyFrame[1].angleYinc = -0.4166;
+	KeyFrame[1].angleZinc = 0.0;
+
+	//Frame 2
+	KeyFrame[2].transX = -1.2;
+	KeyFrame[2].transY = 0.0;
+	KeyFrame[2].transZ = 0.0;
+
+	KeyFrame[2].angleDedoI = -90.0;
+	KeyFrame[2].angleDedoE = -90.0;
+	KeyFrame[2].angleCodo = 54.0;
+	KeyFrame[2].angleBrazo = -14.0;
+
+	KeyFrame[2].angleX = -1.5;
+	KeyFrame[2].angleY = -37.5;
+	KeyFrame[2].angleZ = 0.0;
+
+	KeyFrame[2].transXinc = 0.0;
+	KeyFrame[2].transYinc = 0.0;
+	KeyFrame[2].transZinc = 0.0;
+
+	KeyFrame[2].angleDedoIinc = 1.0;
+	KeyFrame[2].angleDedoEinc = 0.0;
+	KeyFrame[2].angleCodoinc = 0.0;
+	KeyFrame[2].angleBrazoinc = 0.577;
+
+	KeyFrame[2].angleXinc = 0.2166;
+	KeyFrame[2].angleYinc = -0.4611;
+	KeyFrame[2].angleZinc = 0.0;
+
+	//Frame 3
+	KeyFrame[3].transX = -1.2;
+	KeyFrame[3].transY = 0.0;
+	KeyFrame[3].transZ = 0.0;
+
+	KeyFrame[3].angleDedoI = 0.0;
+	KeyFrame[3].angleDedoE = -90.0;
+	KeyFrame[3].angleCodo = 54.0;
+	KeyFrame[3].angleBrazo = 38.0;
+
+	KeyFrame[3].angleX = 18.0;
+	KeyFrame[3].angleY = -79.0;
+	KeyFrame[3].angleZ = 0.0;
+
+	KeyFrame[3].transXinc = 0.0044;
+	KeyFrame[3].transYinc = 0.0;
+	KeyFrame[3].transZinc = 0.0;
+
+	KeyFrame[3].angleDedoIinc = -0.311;
+	KeyFrame[3].angleDedoEinc = 0.0;
+	KeyFrame[3].angleCodoinc = -0.111;
+	KeyFrame[3].angleBrazoinc = -0.1777;
+
+	KeyFrame[3].angleXinc = -0.0055;
+	KeyFrame[3].angleYinc = 0.62777;
+	KeyFrame[3].angleZinc = 0.0;
+
+	//Frame 4
+	KeyFrame[4].transX = -0.7999;
+	KeyFrame[4].transY = 0.0;
+	KeyFrame[4].transZ = 0.0;
+
+	KeyFrame[4].angleDedoI = -28.0;
+	KeyFrame[4].angleDedoE = -90.0;
+	KeyFrame[4].angleCodo = 43.999;
+	KeyFrame[4].angleBrazo = 22.00008;
+
+	KeyFrame[4].angleX = 17.4999;
+	KeyFrame[4].angleY = -22.5;
+	KeyFrame[4].angleZ = 0.0;
+
+	KeyFrame[4].transXinc = 0.0177;
+	KeyFrame[4].transYinc = 0.0;
+	KeyFrame[4].transZinc = 0.0;
+
+	KeyFrame[4].angleDedoIinc = -0.377;
+	KeyFrame[4].angleDedoEinc = 0.533;
+	KeyFrame[4].angleCodoinc = -0.0444;
+	KeyFrame[4].angleBrazoinc = -0.2888;
+
+	KeyFrame[4].angleXinc = -0.2166;
+	KeyFrame[4].angleYinc = 0.0;
+	KeyFrame[4].angleZinc = 0.0;
+
+	//Frame 5
+	KeyFrame[5].transX = 0.8;
+	KeyFrame[5].transY = 0.0;
+	KeyFrame[5].transZ = 0.0;
+
+	KeyFrame[5].angleDedoI = -35.0;
+	KeyFrame[5].angleDedoE = -42.0;
+	KeyFrame[5].angleCodo = 39.999;
+	KeyFrame[5].angleBrazo = -3.999;
+
+	KeyFrame[5].angleX = -2.0;
+	KeyFrame[5].angleY = -22.50;
+	KeyFrame[5].angleZ = 0.0;
+
+	KeyFrame[5].transXinc = 0.0;
+	KeyFrame[5].transYinc = 0.0133;
+	KeyFrame[5].transZinc = -0.00222;
+
+	KeyFrame[5].angleDedoIinc = -0.333;
+	KeyFrame[5].angleDedoEinc = 0.488;
+	KeyFrame[5].angleCodoinc = -0.4222;
+	KeyFrame[5].angleBrazoinc = 0.2;
+
+	KeyFrame[5].angleXinc = 0.1944;
+	KeyFrame[5].angleYinc = 0.0;
+	KeyFrame[5].angleZinc = 0.0;
+
+	//Frame 6
+	KeyFrame[6].transX = 0.8;
+	KeyFrame[6].transY = 1.2;
+	KeyFrame[6].transZ = -0.2;
+
+	KeyFrame[6].angleDedoI = -92.0;
+	KeyFrame[6].angleDedoE = 2.0;
+	KeyFrame[6].angleCodo = 2.0;
+	KeyFrame[6].angleBrazo = 14.0;
+
+	KeyFrame[6].angleX = 15.499;
+	KeyFrame[6].angleY = -22.5004;
+	KeyFrame[6].angleZ = 0.0;
+
+	KeyFrame[6].transXinc = 0.0;
+	KeyFrame[6].transYinc = 0.0133;
+	KeyFrame[6].transZinc = 0.0088;
+
+	KeyFrame[6].angleDedoIinc = 0.0;
+	KeyFrame[6].angleDedoEinc = -1.022;
+	KeyFrame[6].angleCodoinc = 0.0;
+	KeyFrame[6].angleBrazoinc = 0.0;
+
+	KeyFrame[6].angleXinc = 1.5499;
+	KeyFrame[6].angleYinc = 0.2166;
+	KeyFrame[6].angleZinc = 0.0;
+
+	//Frame 7
+	KeyFrame[7].transX = 0.8;
+	KeyFrame[7].transY = 2.4;
+	KeyFrame[7].transZ = 0.6;
+
+	KeyFrame[7].angleDedoI = -92.0;
+	KeyFrame[7].angleDedoE = -90.0;
+	KeyFrame[7].angleCodo = 2.0;
+	KeyFrame[7].angleBrazo = 14.0;
+
+	KeyFrame[7].angleX = 155.0;
+	KeyFrame[7].angleY = -3.0;
+	KeyFrame[7].angleZ = 0.0;
+
+	KeyFrame[7].transXinc = 0.0;
+	KeyFrame[7].transYinc = 0.0;
+	KeyFrame[7].transZinc = 0.0;
+
+	KeyFrame[7].angleDedoIinc = 1.044;
+	KeyFrame[7].angleDedoEinc = 1.022;
+	KeyFrame[7].angleCodoinc = 0.6;
+	KeyFrame[7].angleBrazoinc = 0.022;
+
+	KeyFrame[7].angleXinc = 1.9166;
+	KeyFrame[7].angleYinc = 0.0;
+	KeyFrame[7].angleZinc = 0.0;
+
+	//Frame 8
+	KeyFrame[8].transX = 0.8;
+	KeyFrame[8].transY = 2.4;
+	KeyFrame[8].transZ = 0.6;
+
+	KeyFrame[8].angleDedoI = 2.0;
+	KeyFrame[8].angleDedoE = 2.0;
+	KeyFrame[8].angleCodo = 56.0;
+	KeyFrame[8].angleBrazo = 16.0;
+
+	KeyFrame[8].angleX = 327.5;
+	KeyFrame[8].angleY = -3.0;
+	KeyFrame[8].angleZ = 0.0;
+
+	KeyFrame[8].transXinc = 0.0;
+	KeyFrame[8].transYinc = 0.0;
+	KeyFrame[8].transZinc = 0.0;
+
+	KeyFrame[8].angleDedoIinc = 0.0;
+	KeyFrame[8].angleDedoEinc = 0.0;
+	KeyFrame[8].angleCodoinc = 0.0;
+	KeyFrame[8].angleBrazoinc = 0.0;
+
+	KeyFrame[8].angleXinc = 0.0;
+	KeyFrame[8].angleYinc = 0.0;
+	KeyFrame[8].angleZinc = 0.0;
+
+	//Frame 9
+	KeyFrame[9].transX = 0.0;
+	KeyFrame[9].transY = 0.0;
+	KeyFrame[9].transZ = 0.0;
+
+	KeyFrame[9].angleDedoI = 0.0;
+	KeyFrame[9].angleDedoE = 0.0;
+	KeyFrame[9].angleCodo = 0.0;
+	KeyFrame[9].angleBrazo = 0.0;
+
+	KeyFrame[9].angleX = 0.0;
+	KeyFrame[9].angleY = 0.0;
+	KeyFrame[9].angleZ = 0.0;
+
+	KeyFrame[9].transXinc = 0.0;
+	KeyFrame[9].transYinc = 0.0;
+	KeyFrame[9].transZinc = 0.0;
+
+	KeyFrame[9].angleDedoIinc = 0.0;
+	KeyFrame[9].angleDedoEinc = 0.0;
+	KeyFrame[9].angleCodoinc = 0.0;
+	KeyFrame[9].angleBrazoinc = 0.0;
+
+	KeyFrame[9].angleXinc = 0.0;
+	KeyFrame[9].angleYinc = 0.0;
+	KeyFrame[9].angleZinc = 0.0;
+
+	FrameIndex = 10;
 }
 
 void pintaTexto(float x, float y, float z, void *font,char *string)
@@ -587,12 +858,13 @@ void laboratorio() {
 		salon.labCG(t_LabCG, 8.0, 3.0, 7.0);
 
 		glPushMatrix();
-		glTranslatef(0.0, 0.0, 0.0);	//Fix? en realidad no tendria que funcionar pero ... bueno. Arregla el problema de la posición del laboratorio.
+		glTranslatef(0.0, 0.0, 3.495);	//Fix? en realidad no tendria que funcionar pero ... bueno. Arregla el problema de la posición del laboratorio.
 		glPushMatrix();
 			glTranslatef(0.0, 0.0, -3.495);
+			//glTranslatef(0.0, 0.0, 0.0);
 			glPushMatrix();//Pizarron
 				glBindTexture(GL_TEXTURE_2D, t_pizarron.GLindex);
-				glTranslatef(-1.5, -1.2, 0.0);
+				glTranslatef(-1.5, -1.2, -3.495);
 				glScalef(4.5, 4.5, 1.0);
 				glBegin(GL_POLYGON);
 					glNormal3f(0.0f, 0.0f, 1.0f);
@@ -603,7 +875,7 @@ void laboratorio() {
 				glEnd();
 				// ANIMACION
 				glBindTexture(GL_TEXTURE_2D, t_pizarronCG.GLindex);
-				glTranslatef(0.03, 0.03, 0.0);
+				glTranslatef(0.03, 0.03, -0.09);
 				glBegin(GL_POLYGON);
 					glNormal3f(0.0f, 0.0f, 1.0f);
 					glTexCoord2f(jPizCG      , iPizCG);		glVertex3f(0.0, 0.4, 0.1);
@@ -874,44 +1146,7 @@ void aula() {
 			glPopMatrix();	//Pop General
 			glEnable(GL_COLOR_MATERIAL);
 }
-		//	SILLAS
-		//if (banderaAula == true) {
-
-		/* 
-		banderaAula es para que la carga no sea tan pesada, se acciona con espacio tanto para aula como para el laboratorio.
-		Eso genera que se dibujen en pantalla los objetos.
-
-		Dentro de este if, tienes que poner todos los modelos cargados, que te recomiendo sean:
 		
-			*	sillaClase.GLrender(NULL, _SHADED, 1.0);
-			*	desk.GLrender(NULL, _SHADED, 1.0);
-			*	pc_Pro.GLrender(NULL, _SHADED, 1.0);
-
-			Es como cargar prismas, antes de todo los tienes que colocar con translatef en sus lugares, escalarlos y girarlos, y una vez hecho eso los instancias con el GLrender.
-			Si ya tienes algunos modelos y quieres usarlos, tienes que declararlos como están hasta arriba (Con CModel) y luego cargarlos en la función init.
-		*/
-		/*
-		
-				//	Estos ints son para generar las sillas en filas y columnas. Mas o menos unos 40? el primer for es para las filas, el otro para las columnas.
-				//	en el translate, ahi tendrás que jugar con algunos valores para que veas como se van generando.
-				//	el 3.5 es por ejemplo de donde empiezan a generarse las sillas, ese lo modificas para que inicien por ejemplo desde la izquierda (si ves el pizarron) y el j*algo es lo que le genera distancia entre si.
-				//	Los demás ... creo que no es necesario cambiarlos, chance solo la coordenada Y para ponerlas en su lugar.
-				aux = -1.0;
-				for (int i = 0; i < 5; i++) {
-					for (int j = 0; j < 8; j++) {
-						glPushMatrix();
-							glTranslatef(3.5 + j * 0.98, -1.5, aux);
-							glRotatef(180, 0.0, 1.0, 0.0);
-							glScalef(0.03, 0.04, 0.02);
-							sillaClase.GLrender(NULL, _SHADED, 1.0);
-						glPopMatrix();
-					}
-					aux += 1.8;
-				}
-			}//	If
-		*/
-
-
 void prisma(float color[3])
 {
 	GLfloat vertice[8][3] = {
@@ -977,114 +1212,83 @@ void prisma(float color[3])
 
 void dedoExterno(float rotate) {	//Solo debe generar un dedo y ya está
 	glPushMatrix();
-	glTranslatef(0.375, 0.0, 0.0);
-	glRotatef(angleDedoE, 0.0, 0.0, rotate);	//Rotación Dedo Externo
-	glTranslatef(0.250, 0.0, 0.0);
-	//Construccion del dedo externo
-	glPushMatrix();
-	glScalef(0.5, 0.3, 0.25);
-	prisma(white);
-	glPopMatrix();
+		glTranslatef(0.375, 0.0, 0.0);
+		glRotatef(angleDedoE, 0.0, 0.0, rotate);	//Rotación Dedo Externo
+		glTranslatef(0.250, 0.0, 0.0);
+		//Construccion del dedo externo
+		glPushMatrix();
+			glScalef(0.5, 0.3, 0.25);
+			prisma(white);
+		glPopMatrix();
 	glPopMatrix();
 
 }
 
 void dedoInterno(float x, float y, float z, float rotate) {
 	glPushMatrix();
-	glTranslatef(x, y, z);
-	glRotatef(angleDedoI, 0.0, 0.0, rotate);	//Rotación Dedo Interno
-	glTranslatef(0.375, 0.0, 0.0);
-	//Construccion del dedo Interno
-	glPushMatrix();
-	glScalef(0.75, 0.3, 0.25);
-	prisma(green);
-	glPopMatrix();
-	dedoExterno(-rotate);
+		glTranslatef(x, y, z);
+		glRotatef(angleDedoI, 0.0, 0.0, rotate);	//Rotación Dedo Interno
+		glTranslatef(0.375, 0.0, 0.0);
+		//Construccion del dedo Interno
+		glPushMatrix();
+			glScalef(0.75, 0.3, 0.25);
+			prisma(green);
+		glPopMatrix();
+		dedoExterno(-rotate);
 	glPopMatrix();
 
 }
 
 void parteC() {
 	glPushMatrix();		//Dedos
-	glTranslatef(1.0, 0.0, 0.0);
-	//Pivote = 3.5,0,0
-	glPushMatrix();
-	//Dedos generalizados
-	dedoInterno(0.0, 0.35, 0.375, -1.0);	//Genera Dedo C y D
-	dedoInterno(0.0, 0.35, 0.0, -1.0);		//Genera Dedo G y H
-	dedoInterno(0.0, 0.35, -0.375, -1.0);	//Genera Dedo I y J
-	dedoInterno(0.0, -0.35, 0.375, 1.0);	//Genera Dedo E y F
-
-	//Individualizacion de los dedos
-	/*glPushMatrix();
-		glTranslatef(0.0, 0.35, 0.375);
-		glRotatef(angleDedoI, 0.0, 0.0, -1.0);
-		glTranslatef(0.375, 0.0, 0.0);
-		dedoInterno();	//Dedo C
-		//glTranslatef(0.375, 0.0, 0.0);
-		dedoExterno();	//DedoD
-
-	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(0.0, 0.35, 0.0);
-		glRotatef(angleDedoI, 0.0, 0.0, 1.0);
-		glTranslatef(0.375, 0.0, 0.0);
-		dedoInterno();	//Dedo G
-		dedoExterno();		//Dedo H
-	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(0.0, 0.35, -0.375);
-		glRotatef(angleDedoI, 0.0, 0.0, -1.0);
-		glTranslatef(0.375, 0.0, 0.0);
-		dedoInterno();	//Dedo I
-		dedoExterno();		//Dedo J
-	glPopMatrix();
-	glPushMatrix();
-		glTranslatef(0.0, -0.35, 0.375);
-		glRotatef(angleDedoI, 0.0, 0.0, 1.0);
-		glTranslatef(0.375, 0.0, 0.0);
-		dedoInterno();	//Dedo E
-		dedoExterno();		//Dedo F
-	glPopMatrix();*/
-	glPopMatrix();
+		glTranslatef(1.0, 0.0, 0.0);
+		//Pivote = 3.5,0,0
+		glPushMatrix();
+			//Dedos generalizados
+			dedoInterno(0.0, 0.35, 0.375, -1.0);	//Genera Dedo C y D
+			dedoInterno(0.0, 0.35, 0.0, -1.0);		//Genera Dedo G y H
+			dedoInterno(0.0, 0.35, -0.375, -1.0);	//Genera Dedo I y J
+			dedoInterno(0.0, -0.35, 0.375, 1.0);	//Genera Dedo E y F
+		glPopMatrix();
 	glPopMatrix();
 }
 
 void parteB() {
 	glPushMatrix();		//Parte B
-	glTranslatef(0.75, 0.0, 0.0);	//Pivote = 1.5,0,0
-	glRotatef(angleCodo, 0.0, 0.0, 1.0);		//Rotación del CODO
-	glTranslatef(1.0, 0.0, 0.0);
-	//Pivote = 2.5,0,0
-	glPushMatrix();
-	glScalef(2.0, 1.0, 1.0);
-	prisma(blue);
-	//Prisma generado a partir de 2.5,0,0
-	glPopMatrix();
-	//Pivote = 2.5,0,0
-	parteC();
+		glTranslatef(0.75, 0.0, 0.0);	//Pivote = 1.5,0,0
+		glRotatef(angleCodo, 0.0, 0.0, 1.0);		//Rotación del CODO
+		glTranslatef(1.0, 0.0, 0.0);
+		//Pivote = 2.5,0,0
+		glPushMatrix();
+			glScalef(2.0, 1.0, 1.0);
+			prisma(blue);
+			//Prisma generado a partir de 2.5,0,0
+		glPopMatrix();
+		//Pivote = 2.5,0,0
+		parteC();
 	glPopMatrix();
 }
 
 void parteA() {
 	glPushMatrix();		//Parte A
 		//Pivote = 0,0,0
-	glRotatef(angleBrazo, 0.0, 0.0, 1.0);	//Rotación a partir de 0,0,0.	Rotación del BRAZO
-	glTranslatef(0.75, 0.0, 0.0);		//Si ya empezamos en 0,0,0 entonces de ahi rotar y generar la figura a partir de 0.75,0,0
-	//Pivote 0.75,0,0
-	glPushMatrix();
-	glScalef(1.5, 1.0, 1.0);
-	prisma(red);
-	//Prisma generado a partir de 0.75,0,0
-	glPopMatrix();
-	//Pivote en 0.75,0,0
-	parteB();
+		glRotatef(angleBrazo, 0.0, 0.0, 1.0);	//Rotación a partir de 0,0,0.	Rotación del BRAZO
+		glTranslatef(0.75, 0.0, 0.0);		//Si ya empezamos en 0,0,0 entonces de ahi rotar y generar la figura a partir de 0.75,0,0
+		//Pivote 0.75,0,0
+		glPushMatrix();
+			glScalef(1.5, 1.0, 1.0);
+			prisma(red);
+			//Prisma generado a partir de 0.75,0,0
+		glPopMatrix();
+		//Pivote en 0.75,0,0
+		parteB();
 
 	glPopMatrix();
 }
 
 void pruebas() {
 	glPushMatrix();
+		glTranslatef(0.0, 1.0, 10.0);
 		glPushMatrix();
 			glEnable(GL_COLOR_MATERIAL);
 			glTranslatef(transX, transY, transZ);
@@ -1154,7 +1358,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			laboratorio();
 			aula();
 
-			//pruebas();
+			pruebas();
 			//	¿Porque se cambia el laboratorio=?!?!?!?!?!?
 			
 
@@ -1197,7 +1401,7 @@ void animacion()
 	dwCurrentTime = GetTickCount(); // Even better to use timeGetTime()
 	dwElapsedTime = dwCurrentTime - dwLastUpdateTime;
 
-	if (dwElapsedTime >= 150)
+	if (dwElapsedTime >= 80)
 	{
 		//Animacion Pizarron
 		if (f_PizarronCG == true) {
@@ -1319,6 +1523,7 @@ void reshape ( int width , int height )   // Creamos funcion Reshape
 
 void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 {
+	float efe = 2.0;
 	switch ( key ) {
 		case 'w':   //Movimientos de camara
 		case 'W':
@@ -1353,7 +1558,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			printf("******************************************\n");*/
 			
 			//Activa y desactiva la carga de modelos
-			//banderaCG = !banderaCG;
+			banderaCG = !banderaCG;
 			banderaAula = !banderaAula;
 
 			break;
@@ -1386,9 +1591,6 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			//Laboratorio
 			g_lookupdown = 14.0;
 			objCamera.Position_Camera(-11.88, 3.9, -1.698, -9.65, 3.9, -3.701, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
-
-			//banderaCG = !banderaCG;
-			//Lz += 1.0;
 			break;
 		case '6':
 			//Salon
@@ -1409,7 +1611,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			iPizCG = 1.0;
 			jPizCG = 0.0;
 			break;
-		case 'i':
+		/*case 'i':
 			Ly += 0.5;
 			break;
 		case 'I':
@@ -1426,9 +1628,9 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			break;
 		case 'L':
 			Lx -= 0.5;
-			break;
+			break;*/
 
-		/*
+/*
 		case 'u':
 		case 'U':
 			if (angleBrazo < 90.0) {
@@ -1485,7 +1687,7 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			}
 			break;
 
-			case '5':		//
+			case 'm':		//
 			//case 'K':
 				if(FrameIndex<MAX_FRAMES)
 				{
@@ -1493,9 +1695,9 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 				}
 
 				break;
-
+*/
 			//case 'l':
-			case '6':
+			case ',':
 				if(play==false && (FrameIndex>1))
 				{
 
@@ -1512,16 +1714,16 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 					play=false;
 				}
 				break;
-			case '7':
+		/*	case '.':
 				for (int i = 0; i < FrameIndex; i++) {
 					printf("Frame [%d]\n", i);
 					printf("transX = %f\ntransY = %f\ntransZ = %f\n", KeyFrame[i].transX, KeyFrame[i].transY, KeyFrame[i].transZ);
-					printf("angleX = %f\nangleY = %f\nangleZ = %f\n", KeyFrame[i].angleX, KeyFrame[i].angleY, KeyFrame[i].angleZ);
 					printf("angleDedoI = %f\nangleDedoE = %f\nangleCodo = %f\nangleBrazo = %f", KeyFrame[i].angleDedoI, KeyFrame[i].angleDedoE, KeyFrame[i].angleCodo, KeyFrame[i].angleBrazo);
-					printf("\nIncrementos:\n");
+					printf("angleX = %f\nangleY = %f\nangleZ = %f\n", KeyFrame[i].angleX, KeyFrame[i].angleY, KeyFrame[i].angleZ);
+					printf("\nIncrementos:\n\n");
 					printf("transXinc = %f\ntransYinc = %f\ntransZinc = %f\n", KeyFrame[i].transXinc, KeyFrame[i].transYinc, KeyFrame[i].transZinc);
-					printf("angleXinc = %f\nangleYinc = %f\nangleZinc = %f\n", KeyFrame[i].angleXinc, KeyFrame[i].angleYinc, KeyFrame[i].angleZinc);
 					printf("angleDedoIinc = %f\nangleDedoEinc = %f\nangleCodoinc = %f\nangleBrazoinc = %f\n", KeyFrame[i].angleDedoIinc, KeyFrame[i].angleDedoEinc, KeyFrame[i].angleCodoinc, KeyFrame[i].angleBrazoinc);
+					printf("angleXinc = %f\nangleYinc = %f\nangleZinc = %f\n", KeyFrame[i].angleXinc, KeyFrame[i].angleYinc, KeyFrame[i].angleZinc);
 					printf("******************************************\n\n");
 				}
 				break;
@@ -1564,7 +1766,8 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			case 'B':
 				angleZ -= 0.5f;
 				break;
-		*/
+	*/
+		
 		case 27:        // Cuando Esc es presionado...
 			exit ( 0 );   // Salimos del programa
 			break;        
