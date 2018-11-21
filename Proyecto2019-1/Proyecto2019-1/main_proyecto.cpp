@@ -76,8 +76,14 @@ CTexture t_techoCG;
 
 GLuint t_LabCG [9];
 
-
 CTexture t_pizarronCG;
+
+//Texturas de Salon
+CTexture t_ventanaI;
+CTexture t_pared;
+
+GLuint t_aulaI [4];	//ventana, pared, piso, techo
+
 //Figuras a "mano"
 CFiguras plancha;
 CFiguras torreIzquierda;
@@ -115,8 +121,10 @@ float iTree = 0.0;
 float jTree = 0.0;
 float iLamp = 0.0;
 float jLamp = 0.0;
+
 // Banderas
 bool banderaCG = false;	//para mostrar las PC, son pesadas.
+bool banderaAula = false;
 bool f_PizarronCG = false;
 bool f_TreeCG = false;
 bool f_LampCG = false;
@@ -258,6 +266,19 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 	t_pizarronCG.BuildGLTexture();
 	t_pizarronCG.ReleaseImage();
 	
+	//Texturas de Salon I
+	t_pared.LoadTGA("Texturas/Salon/pared.tga");
+	t_pared.BuildGLTexture();
+	t_pared.ReleaseImage();
+
+	t_ventanaI.LoadTGA("Texturas/Salon/ventana.tga");
+	t_ventanaI.BuildGLTexture();
+	t_ventanaI.ReleaseImage();
+
+	t_aulaI[0] = t_pared.GLindex;
+	t_aulaI[1] = t_ventanaI.GLindex;
+	t_aulaI[2] = t_pisoCG.GLindex;
+	t_aulaI[3] = t_techoCG.GLindex;
 
 	//Carga de Figuras
 
@@ -619,6 +640,89 @@ void laboratorio() {
 	glPopMatrix();
 }
 
+void aula() {
+	glPushMatrix();	//Push General
+		glTranslatef(8.0, 3.0, -5.0);
+		salon.aulaI(t_aulaI, 8.0, 3.0, 7.0);
+		glPushMatrix();// Push del fix?
+			glTranslatef(0.0, 0.0, 0.0);
+			glPushMatrix();	//Pizarron
+				glBindTexture(GL_TEXTURE_2D, t_pizarron.GLindex);
+				glTranslatef(0.0, -1.0, 3.495);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				glScalef(7.0, 4.5, 1.0);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, 0.5, 0.0);	//6
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			glPopMatrix();	//Pop Pizarron
+			glPushMatrix();	//Pizarron	izquierda
+				glBindTexture(GL_TEXTURE_2D, t_pizarron.GLindex);
+				glTranslatef(2.0, -1.0, 3.495);
+				glRotatef(180, 0.0, 1.0, 0.0);
+				glScalef(3.0, 4.5, 1.0);
+				glBegin(GL_POLYGON);
+					glNormal3f(0.0f, 0.0f, 1.0f);
+					glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, 0.5, 0.0);	//6
+					glTexCoord2f(1.0f, 1.0f); glVertex3f(0.5, 0.5, 0.0);	//5
+					glTexCoord2f(1.0f, 0.0f); glVertex3f(0.5, 0.0, 0.0);	//3
+					glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);	//2
+				glEnd();
+			glPopMatrix();	//Pop Pizarron izquierdo
+
+			glPushMatrix();		//Push para el IF banderaAUla
+		/*
+		Acá harias algo parecido a esto para poner las sillas.
+		Tienes que identificar la escala de cada silla para que no se vean demasiado chicas o grandes.
+		Rotarlas en Y para que queden viendo hacia los pizarrones.
+
+		Además de eso, habría que poner otros dos escritorio enfrente y una PC a un lado.
+		Fuera de eso, podrias poner otro plano en la izquierda para que se vea una puerta, pero eso puede quedar fuera.
+
+		//	SILLAS
+		if (banderaAula == true) {
+
+		/* 
+		banderaAula es para que la carga no sea tan pesada, se acciona con espacio tanto para aula como para el laboratorio.
+		Eso genera que se dibujen en pantalla los objetos.
+
+		Dentro de este if, tienes que poner todos los modelos cargados, que te recomiendo sean:
+		
+			*	sillaClase.GLrender(NULL, _SHADED, 1.0);
+			*	desk.GLrender(NULL, _SHADED, 1.0);
+			*	pc_Pro.GLrender(NULL, _SHADED, 1.0);
+
+			Es como cargar prismas, antes de todo los tienes que colocar con translatef en sus lugares, escalarlos y girarlos, y una vez hecho eso los instancias con el GLrender.
+			Si ya tienes algunos modelos y quieres usarlos, tienes que declararlos como están hasta arriba (Con CModel) y luego cargarlos en la función init.
+		*/
+		/*
+		
+				//	Estos ints son para generar las sillas en filas y columnas. Mas o menos unos 40? el primer for es para las filas, el otro para las columnas.
+				//	en el translate, ahi tendrás que jugar con algunos valores para que veas como se van generando.
+				//	el 3.5 es por ejemplo de donde empiezan a generarse las sillas, ese lo modificas para que inicien por ejemplo desde la izquierda (si ves el pizarron) y el j*algo es lo que le genera distancia entre si.
+				//	Los demás ... creo que no es necesario cambiarlos, chance solo la coordenada Y para ponerlas en su lugar.
+				aux = -1.0;
+				for (int i = 0; i < 5; i++) {
+					for (int j = 0; j < 8; j++) {
+						glPushMatrix();
+							glTranslatef(3.5 + j * 0.98, -1.5, aux);
+							glRotatef(180, 0.0, 1.0, 0.0);
+							glScalef(0.03, 0.04, 0.02);
+							sillaClase.GLrender(NULL, _SHADED, 1.0);
+						glPopMatrix();
+					}
+					aux += 1.8;
+				}
+			}//	If
+		*/
+			glPopMatrix();	//Pop de banderaAula
+		glPopMatrix();	//Pop del fix
+	glPopMatrix();	//Pop General
+}
+
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -670,6 +774,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 			
 			//pruebas();
 			laboratorio();
+			aula();
 
 			//Para que el comando glColor funcione con iluminacion
 			glEnable(GL_COLOR_MATERIAL);
@@ -812,9 +917,9 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 
 		case ' ':		//Poner algo en movimiento
 			//Commit?
-			printf("X = %f\n", Lx);
-			printf("Y = %f\n", Ly);
-			printf("Z = %f\n\n", Lz);
+			//printf("X = %f\n", Lx);
+			//printf("Y = %f\n", Ly);
+			//printf("Z = %f\n\n", Lz);
 			/*printf("mPos.x = %f\tmPos.y = %f\tmPos.z = %f\n",objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z);
 			printf("mView.x = %f\tmView.y = %f\tmView.z = %f\n", objCamera.mView.x, objCamera.mView.y, objCamera.mView.z);
 			printf("mUp.x = %f\tmUp.y = %f\tmUp.z = %f\n", objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
@@ -822,6 +927,10 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			printf("CAMERASPEED: %f\n", CAMERASPEED);
 			printf("******************************************\n");*/
 			
+			//Activa y desactiva la carga de modelos
+			banderaCG = !banderaCG;
+			banderaAula = !banderaAula;
+
 			break;
 		case '0':	//Original
 			objCamera.Position_Camera(10, 2.5f, 13, 10, 2.5f, 10, 0, 1, 0);
@@ -853,8 +962,13 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 			g_lookupdown = 14.0;
 			objCamera.Position_Camera(-11.88, 3.9, -1.698, -9.65, 3.9, -3.701, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 
-			banderaCG = !banderaCG;
+			//banderaCG = !banderaCG;
 			//Lz += 1.0;
+			break;
+		case '6':
+			//Salon
+			g_lookupdown = 14.0;
+			objCamera.Position_Camera(4.211, 3.9, -3.035, 6.907, 3.9, -4.344, objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
 			break;
 		case '7':
 			f_LampCG = !f_LampCG;
@@ -938,7 +1052,7 @@ int main ( int argc, char** argv )   // Main Function
   glutInitDisplayMode (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
   glutInitWindowSize  (1600, 900);	// Tamaño de la Ventana
   glutInitWindowPosition (0, 0);	//Posicion de la Ventana
-  glutCreateWindow    ("Practica 10"); // Nombre de la Ventana
+  glutCreateWindow    ("Proyecto Final"); // Nombre de la Ventana
   //glutFullScreen     ( );         // Full Screen
   InitGL ();						// Parametros iniciales de la aplicacion
   glutDisplayFunc     ( display );  //Indicamos a Glut función de dibujo
