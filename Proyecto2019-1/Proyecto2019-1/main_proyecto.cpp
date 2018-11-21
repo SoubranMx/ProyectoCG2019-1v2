@@ -268,7 +268,8 @@ void InitGL ( GLvoid )     // Inicializamos parametros
 
 	// Por una razón que sigo sin comprender, no tienen texturas ni materiales... kinda pssed off.
 	sillaClase._3dsLoad("Modelos/sillaClase.3DS");	
-	sillaLab._3dsLoad("Modelos/chair.3DS");		//Por alguna razón, no importó las patas de la derecha ???
+	sillaLab._3dsLoad("Modelos/Vitra03_3DS.3DS");		//Por alguna razón, no importó las patas de la derecha ???
+	//sillaLab._3dsLoad("Modelos/chair.3DS");		//Por alguna razón, no importó las patas de la derecha ???
 	trashCan._3dsLoad("Modelos/bin.3DS");
 
 	desk._3dsLoad("Modelos/desk.3ds");
@@ -431,6 +432,8 @@ void laboratorio() {
 		salon.labCG(t_LabCG, 8.0, 3.0, 7.0);
 
 		glPushMatrix();
+		glTranslatef(0.0, 0.0, 0.0);	//Fix? en realidad no tendria que funcionar pero ... bueno. Arregla el problema de la posición del laboratorio.
+		glPushMatrix();
 			glTranslatef(0.0, 0.0, -3.495);
 			glPushMatrix();//Pizarron
 				glBindTexture(GL_TEXTURE_2D, t_pizarron.GLindex);
@@ -445,7 +448,7 @@ void laboratorio() {
 				glEnd();
 				// ANIMACION
 				glBindTexture(GL_TEXTURE_2D, t_pizarronCG.GLindex);
-				glTranslatef(0.05, 0.03, 0.0);
+				glTranslatef(0.03, 0.03, 0.0);
 				glBegin(GL_POLYGON);
 					glNormal3f(0.0f, 0.0f, 1.0f);
 					glTexCoord2f(jPizCG      , iPizCG);		glVertex3f(0.0, 0.4, 0.1);
@@ -581,22 +584,15 @@ void laboratorio() {
 					aux += 1.8;
 				}
 
-/*				glPushMatrix();
-				glTranslatef(Lx,Ly, Lz);
-				//glTranslatef(0.5, -1.5, -1.0);
-				glRotatef(90, 0.0, 1.0, 0.0);
-				glScalef(0.01, 0.015, 0.01);
-				sillaLab.GLrender(NULL, _SHADED, 1.0);
-
-				glPopMatrix();*/
-			//	SILLAS
+		//	SILLAS
 				aux = -1.0;
 				for (int i = 0; i < 3; i++) {
 					for (int j = 0; j < 3; j++) {
 						glPushMatrix();
-						glTranslatef(-3.5 + j * 0.8, -1.5, aux);
-						glRotatef(90, 0.0, 1.0, 0.0);
-						glScalef(0.01, 0.015, 0.01);
+						glTranslatef(-3.5 + j * 0.98, -1.5, aux);
+						glRotatef(180, 0.0, 1.0, 0.0);
+						//glScalef(0.01, 0.015, 0.01);
+						glScalef(0.03, 0.04, 0.02);
 						sillaLab.GLrender(NULL, _SHADED, 1.0);
 						glPopMatrix();
 					}
@@ -607,9 +603,10 @@ void laboratorio() {
 				for (int i = 0; i < 3; i++) {
 					for (int j = 0; j < 4; j++) {
 						glPushMatrix();
-							glTranslatef(0.5 + j*0.8, -1.5, aux);
-							glRotatef(90, 0.0, 1.0, 0.0);
-							glScalef(0.01, 0.015, 0.01);
+							glTranslatef(0.5 + j*0.9, -1.5, aux);
+							glRotatef(180, 0.0, 1.0, 0.0);
+							//glScalef(0.01, 0.015, 0.01);
+							glScalef(0.03, 0.04, 0.02);
 							sillaLab.GLrender(NULL, _SHADED, 1.0);
 						glPopMatrix();
 					}
@@ -618,6 +615,7 @@ void laboratorio() {
 			}//	If
 			glEnable(GL_COLOR_MATERIAL);
 		glPopMatrix();
+	glPopMatrix();
 	glPopMatrix();
 }
 
@@ -670,7 +668,7 @@ void display ( void )   // Creamos la funcion donde se dibuja
 
 			jardineras();
 			
-			pruebas();
+			//pruebas();
 			laboratorio();
 
 			//Para que el comando glColor funcione con iluminacion
@@ -712,7 +710,7 @@ void animacion()
 	dwCurrentTime = GetTickCount(); // Even better to use timeGetTime()
 	dwElapsedTime = dwCurrentTime - dwLastUpdateTime;
 
-	if (dwElapsedTime >= 80)
+	if (dwElapsedTime >= 150)
 	{
 		//Animacion Pizarron
 		if (f_PizarronCG == true) {
