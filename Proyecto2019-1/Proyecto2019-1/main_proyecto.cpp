@@ -680,10 +680,59 @@ void aula() {
 		Rotarlas en Y para que queden viendo hacia los pizarrones.
 
 		Además de eso, habría que poner otros dos escritorio enfrente y una PC a un lado.
-		Fuera de eso, podrias poner otro plano en la izquierda para que se vea una puerta, pero eso puede quedar fuera.
+		Fuera de eso, podrias poner otro plano en la izquierda para que se vea una puerta, pero eso puede quedar fuera.			*/
 
+
+		//SILLAS
+			if (banderaCG == true) {
+
+
+				//	SILLAS
+				aux = -3.0;
+				for (int i = 0; i < 5; i++) {
+					for (int j = 0; j < 8; j++) {
+						glPushMatrix();
+						glTranslatef(-3.5 + j * 0.98, -1.5, aux);		//izq,
+						glRotatef(-90, 0.0, 1.0, 0.0);
+						glScalef(0.01, 0.015, 0.01);
+						sillaClase.GLrender(NULL, _SHADED, 1.0);
+						glPopMatrix();
+					}
+					aux += 1.0;
+				}
+
+				// ESCRITORIOS
+
+				glPushMatrix();	//Desk1 frente
+				glTranslatef(1.5, -1.6, 2.0);
+				glScalef(0.01, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+				glPopMatrix();
+
+				glPushMatrix();	//Desk2	lado
+				glTranslatef(3.0, -1.6, 2.5);
+				glRotatef(-90, 0.0, 1.0, 0.0);
+				glScalef(0.003, 0.005, 0.005);
+				desk.GLrender(NULL, _SHADED, 1.0);
+				glPopMatrix();
+
+				//PC
+
+				glPushMatrix();
+				glTranslatef(1.6, -1.6, 3.0);
+				glRotatef(90, 0.0, 1.0, 0.0);
+				glScalef(0.008, 0.008, 0.008);
+				pc_Pro.GLrender(NULL, _SHADED, 1.0);
+				glPopMatrix();
+   
+			}
+
+			glPopMatrix();	//Pop de banderaAula
+			glPopMatrix();	//Pop del fix
+			glPopMatrix();	//Pop General
+}
 		//	SILLAS
-		if (banderaAula == true) {
+		//if (banderaAula == true) {
 
 		/* 
 		banderaAula es para que la carga no sea tan pesada, se acciona con espacio tanto para aula como para el laboratorio.
@@ -718,10 +767,7 @@ void aula() {
 				}
 			}//	If
 		*/
-			glPopMatrix();	//Pop de banderaAula
-		glPopMatrix();	//Pop del fix
-	glPopMatrix();	//Pop General
-}
+
 
 void display ( void )   // Creamos la funcion donde se dibuja
 {
